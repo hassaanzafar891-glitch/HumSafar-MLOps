@@ -1,0 +1,23 @@
+{
+  "python": "3.12.10",
+  "platform": "Windows",
+  "node": "v22.18.0",
+  "packages": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "joblib": "1.6.0",
+    "torch": "2.6.0+cpu",
+    "fastapi": "0.162.2",
+    "pydantic": "2.14.3",
+    "SQLAlchemy": "2.1.8",
+    "PyJWT": "2.15.1",
+    "pwdlib": "0.3.1",
+    "dvc": "3.67.1",
+    "mlflow-skinny": "3.18.0",
+    "alembic": "1.20.1",
+    "PyYAML": "6.0.3",
+    "python-dateutil": "2.9.0.post0"
+  }
+}

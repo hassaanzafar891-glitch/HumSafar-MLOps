@@ -1,0 +1,137 @@
+stages:
+  prepare:
+    cmd: ${runtime.python} -m backend.mlops.pipeline prepare
+    deps:
+    - backend/inspect_hawaii.py
+    - backend/mlops/definitions.py
+    - backend/mlops/pipeline.py
+    - backend/mlops/tracking.py
+    - backend/prepare_hawaii.py
+    - data/processed/hawaii_inspection.json
+    - data/raw/meta-Hawaii.json.gz
+    - data/raw/review-Hawaii_10.json.gz
+    outs:
+    - data/processed/hawaii/train.csv:
+        persist: true
+    - data/processed/hawaii/validation.csv:
+        persist: true
+    - data/processed/hawaii/user_mapping.csv:
+        persist: true
+    - data/processed/hawaii/attraction_mapping.csv:
+        persist: true
+    - data/processed/hawaii/attractions.jsonl:
+        persist: true
+    - data/processed/hawaii/audit.json:
+        persist: true
+  baselines:
+    cmd: ${runtime.python} -m backend.mlops.pipeline baselines
+    deps:
+    - backend/mlops/definitions.py
+    - backend/mlops/pipeline.py
+    - backend/mlops/tracking.py
+    - backend/train_baselines.py
+    - data/processed/hawaii/attraction_mapping.csv
+    - data/processed/hawaii/train.csv
+    - data/processed/hawaii/validation.csv
+    outs:
+    - data/processed/hawaii/baseline_validation_metrics.json:
+        persist: true
+    - models/hawaii_baselines/baselines.joblib:
+        persist: true
+    - models/hawaii_baselines/item_statistics.csv:
+        persist: true
+    - models/hawaii_baselines/manifest.json:
+        persist: true
+  mf:
+    cmd: ${runtime.python} -m backend.mlops.pipeline mf
+    deps:
+    - backend/mlops/definitions.py
+    - backend/mlops/pipeline.py
+    - backend/mlops/tracking.py
+    - backend/train_baselines.py
+    - backend/train_matrix_factorization.py
+    - data/processed/hawaii/attraction_mapping.csv
+    - data/processed/hawaii/baseline_validation_metrics.json
+    - data/processed/hawaii/train.csv
+    - data/processed/hawaii/validation.csv
+    outs:
+    - data/processed/hawaii/matrix_factorization_validation_metrics.json:
+        persist: true
+    - data/processed/hawaii/matrix_factorization_search.json:
+        persist: true
+    - models/hawaii_matrix_factorization/model.npz:
+        persist: true
+    - models/hawaii_matrix_factorization/metadata.json:
+        persist: true
+    - models/hawaii_matrix_factorization/config.json:
+        persist: true
+  bpr:
+    cmd: ${runtime.python} -m backend.mlops.pipeline bpr
+    deps:
+    - backend/mlops/definitions.py
+    - backend/mlops/pipeline.py
+    - backend/mlops/tracking.py
+    - backend/train_baselines.py
+    - backend/train_bpr.py
+    - data/processed/hawaii/attraction_mapping.csv
+    - data/processed/hawaii/baseline_validation_metrics.json
+    - data/processed/hawaii/matrix_factorization_validation_metrics.json
+    - data/processed/hawaii/train.csv
+    - data/processed/hawaii/validation.csv
+    outs:
+    - data/processed/hawaii/bpr_validation_metrics.json:
+        persist: true
+    - data/processed/hawaii/bpr_search.json:
+        persist: true
+    - models/hawaii_bpr/model.npz:
+        persist: true
+    - models/hawaii_bpr/metadata.json:
+        persist: true
+    - models/hawaii_bpr/config.json:
+        persist: true
+  groups:
+    cmd: ${runtime.python} -m backend.mlops.pipeline groups
+    deps:
+    - backend/evaluate_group_consensus.py
+    - backend/group_consensus.py
+    - backend/mlops/definitions.py
+    - backend/mlops/pipeline.py
+    - backend/mlops/tracking.py
+    - backend/train_baselines.py
+    - backend/train_bpr.py
+    - data/processed/hawaii/train.csv
+    - data/processed/hawaii/validation.csv
+    - models/hawaii_bpr/config.json
+    - models/hawaii_bpr/metadata.json
+    - models/hawaii_bpr/model.npz
+    outs:
+    - data/processed/hawaii/group_validation_metrics.json:
+        persist: true
+    - data/processed/hawaii/group_validation_details.json:
+        persist: true
+    - models/hawaii_group_consensus/config.json:
+        persist: true
+  catalog:
+    cmd: ${runtime.python} -m backend.mlops.pipeline catalog
+    deps:
+    - backend/build_catalog.py
+    - backend/catalog.py
+    - backend/mlops/definitions.py
+    - backend/mlops/pipeline.py
+    - backend/mlops/tracking.py
+    - backend/train_baselines.py
+    - data/processed/destinations_cleaned.csv
+    - data/processed/hawaii/attractions.jsonl
+    - data/raw/corpus-webis-tripad-14.tar.gz
+    - models/hawaii_bpr/metadata.json
+    outs:
+    - data/processed/international/catalog.jsonl:
+        persist: true
+    - data/processed/international/coverage.json:
+        persist: true
+    - data/processed/international/coverage_by_country.csv:
+        persist: true
+    - data/processed/international/schema.json:
+        persist: true
+vars:
+- params.yaml

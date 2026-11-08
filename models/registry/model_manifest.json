@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "status": "current_approved_reference_not_new_deployment",
+  "approval_basis": "User approved completed Step 23/24; no model replacement authorized in Step 28.",
+  "objective": "ranking",
+  "model": "hawaii_bpr_popularity_hybrid",
+  "scope": "google_local_hawaii compatible user/item IDs only",
+  "selected_config": {
+    "factors": 32,
+    "regularization": 0.01,
+    "learning_rate": 0.005,
+    "epochs": 15,
+    "batch_size": 4096,
+    "seed": 2026
+  },
+  "hybrid_alpha": 0.75,
+  "validation": {
+    "alpha": 0.75,
+    "recall_at_10": 0.2496429471561791,
+    "ndcg_at_10": 0.13446799812168744,
+    "hit_users": 5943,
+    "eligible_users": 23806,
+    "excluded_no_relevant_holdout": 2102,
+    "catalog_size": 1512
+  },
+  "test_evaluated": false,
+  "artifacts": {
+    "models/hawaii_bpr/model.npz": "b3392965de013fff33e93cba48874e03e2f0cb2f501eed7801d56d7aaab32902",
+    "models/hawaii_bpr/metadata.json": "f21d63d2b4891af7058d32bc4b4cc3b7f98771413f0a480f5eb06a34de7308c3",
+    "models/hawaii_bpr/config.json": "2fbd4794c4b8bc9e2c03543af9528c7701867ab0dc16100d1cd0227ffda88e83"
+  },
+  "dataset_provenance": {
+    "train.csv": "c9a167a6891836b66f6e75ebbe3c4fbfd625445d1e51965f6980fa0824adc423",
+    "validation.csv": "bdbbeb1d2c946ff4a9c9038ce8bc82b4224b2e0c7c294f8782f7abcbaa59238a",
+    "attraction_mapping.csv": "109387d6a792d3adab6a0f6f1aeef86e7ae1e425acbb12cb5963a99857537795"
+  },
+  "rating_prediction_reference": {
+    "model": "biased_matrix_factorization",
+    "objective": "explicit_rating",
+    "validation": {
+      "mae": 0.4196939764749084,
+      "rmse": 0.6421922354139324
+    },
+    "artifact": "models/hawaii_matrix_factorization/model.npz",
+    "not_selected_for_ranking": true
+  },
+  "promotion_policy": "Candidate metrics never auto-change serving. Review quality, scope, provenance and regressions; signed-off JSON approval must bind exact candidate-file SHA256. Approval records only permit a later explicit manual integration; this service still loads existing paths."
+}

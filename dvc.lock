@@ -1,0 +1,358 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: .venv/Scripts/python.exe -m backend.mlops.pipeline prepare
+    deps:
+    - path: backend/inspect_hawaii.py
+      hash: md5
+      md5: 03ae4363437a524268d541686f0517cb
+      size: 21212
+    - path: backend/mlops/definitions.py
+      hash: md5
+      md5: fdf7ffd2888c3921d3a9443946cb11bb
+      size: 3933
+    - path: backend/mlops/pipeline.py
+      hash: md5
+      md5: 18c2644eb5f328d9ac390f7b7da51581
+      size: 1582
+    - path: backend/mlops/tracking.py
+      hash: md5
+      md5: 5074635cd24bba988c873a80da6eded2
+      size: 7785
+    - path: backend/prepare_hawaii.py
+      hash: md5
+      md5: 0f6d9049fc1d0aa646ac134a6cb3295b
+      size: 16816
+    - path: data/processed/hawaii_inspection.json
+      hash: md5
+      md5: 12e29c3053a8f84b70993befd664b8d9
+      size: 58602
+    - path: data/raw/meta-Hawaii.json.gz
+      hash: md5
+      md5: cece039bef6739765ac150e2d2083cfb
+      size: 4751865
+    - path: data/raw/review-Hawaii_10.json.gz
+      hash: md5
+      md5: 1d5d0d06cf77df053b6515a1b4a8f84e
+      size: 127307636
+    outs:
+    - path: data/processed/hawaii/attraction_mapping.csv
+      hash: md5
+      md5: aa9938d6b30b5022bd223523921581d4
+      size: 65339
+    - path: data/processed/hawaii/attractions.jsonl
+      hash: md5
+      md5: a19d14bc79522a22a90e732402366370
+      size: 1515535
+    - path: data/processed/hawaii/audit.json
+      hash: md5
+      md5: cbd00cb321a4e7391a90f1ef10b522f3
+      size: 9198
+    - path: data/processed/hawaii/train.csv
+      hash: md5
+      md5: e68143be363a09b053c6a32c99feca90
+      size: 17569012
+    - path: data/processed/hawaii/user_mapping.csv
+      hash: md5
+      md5: bb57451b97787bb935255b874baf084a
+      size: 740242
+    - path: data/processed/hawaii/validation.csv
+      hash: md5
+      md5: c4a6d832e6f84938a798dc04dc8bcd30
+      size: 2490661
+  baselines:
+    cmd: .venv/Scripts/python.exe -m backend.mlops.pipeline baselines
+    deps:
+    - path: backend/mlops/definitions.py
+      hash: md5
+      md5: fdf7ffd2888c3921d3a9443946cb11bb
+      size: 3933
+    - path: backend/mlops/pipeline.py
+      hash: md5
+      md5: 18c2644eb5f328d9ac390f7b7da51581
+      size: 1582
+    - path: backend/mlops/tracking.py
+      hash: md5
+      md5: 5074635cd24bba988c873a80da6eded2
+      size: 7785
+    - path: backend/train_baselines.py
+      hash: md5
+      md5: 971ed6b9ae162046373a8586f25b1658
+      size: 10716
+    - path: data/processed/hawaii/attraction_mapping.csv
+      hash: md5
+      md5: aa9938d6b30b5022bd223523921581d4
+      size: 65339
+    - path: data/processed/hawaii/train.csv
+      hash: md5
+      md5: e68143be363a09b053c6a32c99feca90
+      size: 17569012
+    - path: data/processed/hawaii/validation.csv
+      hash: md5
+      md5: c4a6d832e6f84938a798dc04dc8bcd30
+      size: 2490661
+    outs:
+    - path: data/processed/hawaii/baseline_validation_metrics.json
+      hash: md5
+      md5: 0629878fe306321b9a62448b5260e8bd
+      size: 3375
+    - path: models/hawaii_baselines/baselines.joblib
+      hash: md5
+      md5: 108739646d9b2045c34307185608a87a
+      size: 759709
+    - path: models/hawaii_baselines/item_statistics.csv
+      hash: md5
+      md5: ccd227385e3fe448dafb553f658cf5d6
+      size: 86249
+    - path: models/hawaii_baselines/manifest.json
+      hash: md5
+      md5: 4089150d0387a9458c7e58501bf1731c
+      size: 916
+  mf:
+    cmd: .venv/Scripts/python.exe -m backend.mlops.pipeline mf
+    deps:
+    - path: backend/mlops/definitions.py
+      hash: md5
+      md5: fdf7ffd2888c3921d3a9443946cb11bb
+      size: 3933
+    - path: backend/mlops/pipeline.py
+      hash: md5
+      md5: 18c2644eb5f328d9ac390f7b7da51581
+      size: 1582
+    - path: backend/mlops/tracking.py
+      hash: md5
+      md5: 5074635cd24bba988c873a80da6eded2
+      size: 7785
+    - path: backend/train_baselines.py
+      hash: md5
+      md5: 971ed6b9ae162046373a8586f25b1658
+      size: 10716
+    - path: backend/train_matrix_factorization.py
+      hash: md5
+      md5: ebc397b20bfca5ccaa6634b9333efe40
+      size: 17134
+    - path: data/processed/hawaii/attraction_mapping.csv
+      hash: md5
+      md5: aa9938d6b30b5022bd223523921581d4
+      size: 65339
+    - path: data/processed/hawaii/baseline_validation_metrics.json
+      hash: md5
+      md5: 0629878fe306321b9a62448b5260e8bd
+      size: 3375
+    - path: data/processed/hawaii/train.csv
+      hash: md5
+      md5: e68143be363a09b053c6a32c99feca90
+      size: 17569012
+    - path: data/processed/hawaii/validation.csv
+      hash: md5
+      md5: c4a6d832e6f84938a798dc04dc8bcd30
+      size: 2490661
+    outs:
+    - path: data/processed/hawaii/matrix_factorization_search.json
+      hash: md5
+      md5: 6a5e866a26f4f7d2592424e137ae4d90
+      size: 19676
+    - path: data/processed/hawaii/matrix_factorization_validation_metrics.json
+      hash: md5
+      md5: e0ae3191656b74c0a9f38224ac9632dc
+      size: 3547
+    - path: models/hawaii_matrix_factorization/config.json
+      hash: md5
+      md5: 2514f006fdae429876d320e112b615cc
+      size: 2685
+    - path: models/hawaii_matrix_factorization/metadata.json
+      hash: md5
+      md5: 7d669007ea38d90b89c1d548e9be9fef
+      size: 10617638
+    - path: models/hawaii_matrix_factorization/model.npz
+      hash: md5
+      md5: 7ff6c97426d0f0eb4ff601425358c086
+      size: 1740085
+  bpr:
+    cmd: .venv/Scripts/python.exe -m backend.mlops.pipeline bpr
+    deps:
+    - path: backend/mlops/definitions.py
+      hash: md5
+      md5: fdf7ffd2888c3921d3a9443946cb11bb
+      size: 3933
+    - path: backend/mlops/pipeline.py
+      hash: md5
+      md5: 18c2644eb5f328d9ac390f7b7da51581
+      size: 1582
+    - path: backend/mlops/tracking.py
+      hash: md5
+      md5: 5074635cd24bba988c873a80da6eded2
+      size: 7785
+    - path: backend/train_baselines.py
+      hash: md5
+      md5: 971ed6b9ae162046373a8586f25b1658
+      size: 10716
+    - path: backend/train_bpr.py
+      hash: md5
+      md5: 51f2eb5c480cf132422082897ddf1f2f
+      size: 18711
+    - path: data/processed/hawaii/attraction_mapping.csv
+      hash: md5
+      md5: aa9938d6b30b5022bd223523921581d4
+      size: 65339
+    - path: data/processed/hawaii/baseline_validation_metrics.json
+      hash: md5
+      md5: 0629878fe306321b9a62448b5260e8bd
+      size: 3375
+    - path: data/processed/hawaii/matrix_factorization_validation_metrics.json
+      hash: md5
+      md5: e0ae3191656b74c0a9f38224ac9632dc
+      size: 3547
+    - path: data/processed/hawaii/train.csv
+      hash: md5
+      md5: e68143be363a09b053c6a32c99feca90
+      size: 17569012
+    - path: data/processed/hawaii/validation.csv
+      hash: md5
+      md5: c4a6d832e6f84938a798dc04dc8bcd30
+      size: 2490661
+    outs:
+    - path: data/processed/hawaii/bpr_search.json
+      hash: md5
+      md5: 3f990bc729c2984437a75eb1d5e5868a
+      size: 20583
+    - path: data/processed/hawaii/bpr_validation_metrics.json
+      hash: md5
+      md5: 56c00587307d534b39f306ea994ab35a
+      size: 3621
+    - path: models/hawaii_bpr/config.json
+      hash: md5
+      md5: 82dbd4cdb9a96f9b28bad05047e0d0e1
+      size: 3310
+    - path: models/hawaii_bpr/metadata.json
+      hash: md5
+      md5: 50360bdadda4980e1f08c20b6ec12fa2
+      size: 10617628
+    - path: models/hawaii_bpr/model.npz
+      hash: md5
+      md5: 0446d96e274425eaf1705664be3d8c5f
+      size: 3227335
+  groups:
+    cmd: .venv/Scripts/python.exe -m backend.mlops.pipeline groups
+    deps:
+    - path: backend/evaluate_group_consensus.py
+      hash: md5
+      md5: f2b12e1bf027b78b7e5233f24cd6c0b1
+      size: 12106
+    - path: backend/group_consensus.py
+      hash: md5
+      md5: 71c6c77d110ec00dd1e01cd97a8c4413
+      size: 6924
+    - path: backend/mlops/definitions.py
+      hash: md5
+      md5: fdf7ffd2888c3921d3a9443946cb11bb
+      size: 3933
+    - path: backend/mlops/pipeline.py
+      hash: md5
+      md5: 18c2644eb5f328d9ac390f7b7da51581
+      size: 1582
+    - path: backend/mlops/tracking.py
+      hash: md5
+      md5: 5074635cd24bba988c873a80da6eded2
+      size: 7785
+    - path: backend/train_baselines.py
+      hash: md5
+      md5: 971ed6b9ae162046373a8586f25b1658
+      size: 10716
+    - path: backend/train_bpr.py
+      hash: md5
+      md5: 51f2eb5c480cf132422082897ddf1f2f
+      size: 18711
+    - path: data/processed/hawaii/train.csv
+      hash: md5
+      md5: e68143be363a09b053c6a32c99feca90
+      size: 17569012
+    - path: data/processed/hawaii/validation.csv
+      hash: md5
+      md5: c4a6d832e6f84938a798dc04dc8bcd30
+      size: 2490661
+    - path: models/hawaii_bpr/config.json
+      hash: md5
+      md5: 82dbd4cdb9a96f9b28bad05047e0d0e1
+      size: 3310
+    - path: models/hawaii_bpr/metadata.json
+      hash: md5
+      md5: 50360bdadda4980e1f08c20b6ec12fa2
+      size: 10617628
+    - path: models/hawaii_bpr/model.npz
+      hash: md5
+      md5: 0446d96e274425eaf1705664be3d8c5f
+      size: 3227335
+    outs:
+    - path: data/processed/hawaii/group_validation_details.json
+      hash: md5
+      md5: 7b567b5395b4ca615037c4f99555e2c2
+      size: 10130617
+    - path: data/processed/hawaii/group_validation_metrics.json
+      hash: md5
+      md5: 15564df03ca0005a062d9cdabb5fe7ff
+      size: 14972
+    - path: models/hawaii_group_consensus/config.json
+      hash: md5
+      md5: 59162937c581bb089f5fa94a49edc018
+      size: 3793
+  catalog:
+    cmd: .venv/Scripts/python.exe -m backend.mlops.pipeline catalog
+    deps:
+    - path: backend/build_catalog.py
+      hash: md5
+      md5: 6521c301fb52d15c5050a614aadb69cf
+      size: 5272
+    - path: backend/catalog.py
+      hash: md5
+      md5: ac236b4b90186f4d54eb79a7f3540585
+      size: 9678
+    - path: backend/mlops/definitions.py
+      hash: md5
+      md5: fdf7ffd2888c3921d3a9443946cb11bb
+      size: 3933
+    - path: backend/mlops/pipeline.py
+      hash: md5
+      md5: 18c2644eb5f328d9ac390f7b7da51581
+      size: 1582
+    - path: backend/mlops/tracking.py
+      hash: md5
+      md5: 5074635cd24bba988c873a80da6eded2
+      size: 7785
+    - path: backend/train_baselines.py
+      hash: md5
+      md5: 971ed6b9ae162046373a8586f25b1658
+      size: 10716
+    - path: data/processed/destinations_cleaned.csv
+      hash: md5
+      md5: 7d45bcbc3fa889f686ec1520e25f1654
+      size: 51506
+    - path: data/processed/hawaii/attractions.jsonl
+      hash: md5
+      md5: a19d14bc79522a22a90e732402366370
+      size: 1515535
+    - path: data/raw/corpus-webis-tripad-14.tar.gz
+      hash: md5
+      md5: e103d1c66efbbed46159e4225d17ad9f
+      size: 63067862
+    - path: models/hawaii_bpr/metadata.json
+      hash: md5
+      md5: 50360bdadda4980e1f08c20b6ec12fa2
+      size: 10617628
+    outs:
+    - path: data/processed/international/catalog.jsonl
+      hash: md5
+      md5: 3c9e0343bb465310e9befe23406ad226
+      size: 17386642
+    - path: data/processed/international/coverage.json
+      hash: md5
+      md5: 56838677face3e4dfd2da453af1be077
+      size: 6856
+    - path: data/processed/international/coverage_by_country.csv
+      hash: md5
+      md5: 17344a53ff357cdf67a322eff64319c6
+      size: 2130
+    - path: data/processed/international/schema.json
+      hash: md5
+      md5: 44cb84f34a4230205b6e3810dfeabce0
+      size: 2483

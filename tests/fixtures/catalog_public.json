@@ -1,0 +1,132 @@
+[
+  {
+    "schema_version": 1,
+    "destination_id": "pakistan_tourism:01d314a0dca74a03c91d5deb2f45ac53581a040d79390596667f99919eddf844",
+    "name": "Baltoro Glacier",
+    "kind": "attraction",
+    "country": "Pakistan",
+    "city_or_region": "Gilgit-Baltistan",
+    "latitude": 35.7106418,
+    "longitude": 76.55314235,
+    "categories": [
+      "Mountainous"
+    ],
+    "description": null,
+    "address": null,
+    "data_source": "pakistan_tourism",
+    "source_id": "Baltoro Glacier",
+    "geographic_coverage": "Pakistan source destination catalog",
+    "model_compatibility": [
+      "pakistan_tfidf",
+      "metadata_preference"
+    ],
+    "provenance": {
+      "country_basis": "explicit Pakistan dataset context, not geocoding",
+      "fixture_notice": "Public-place metadata subset only; no user profiles, reviews, ratings or interactions."
+    }
+  },
+  {
+    "schema_version": 1,
+    "destination_id": "pakistan_tourism:057ade10bf66061a869461f1bf5648c53c6d580c3b79025ba4def3416ae79fbc",
+    "name": "Indus Kohistan",
+    "kind": "attraction",
+    "country": "Pakistan",
+    "city_or_region": "Khyber Pakhtunkhwa",
+    "latitude": 35.5074167,
+    "longitude": 73.2877772,
+    "categories": [
+      "Mountainous"
+    ],
+    "description": null,
+    "address": null,
+    "data_source": "pakistan_tourism",
+    "source_id": "Indus Kohistan",
+    "geographic_coverage": "Pakistan source destination catalog",
+    "model_compatibility": [
+      "pakistan_tfidf",
+      "metadata_preference"
+    ],
+    "provenance": {
+      "country_basis": "explicit Pakistan dataset context, not geocoding",
+      "fixture_notice": "Public-place metadata subset only; no user profiles, reviews, ratings or interactions."
+    }
+  },
+  {
+    "schema_version": 1,
+    "destination_id": "google_local_hawaii:002535dc9a60be50aa3872f58f102b54c7bd883ad1bc789bd45f6f277317b107",
+    "name": "Makena Cove",
+    "kind": "attraction",
+    "country": "United States",
+    "city_or_region": "Hawaii",
+    "latitude": 20.626913599999998,
+    "longitude": -156.4431335,
+    "categories": [
+      "Beach"
+    ],
+    "description": null,
+    "address": null,
+    "data_source": "google_local_hawaii",
+    "source_id": "0x7954dca4f66cd01f:0x24e2bffe25a776fc",
+    "geographic_coverage": "Hawaii, United States: prepared attraction subset",
+    "model_compatibility": [
+      "metadata_preference",
+      "hawaii_bpr"
+    ],
+    "provenance": {
+      "country_basis": "explicit Hawaii dataset context; coordinates checked against conservative Hawaii regional bounds",
+      "fixture_notice": "Public-place metadata subset only; no user profiles, reviews, ratings or interactions."
+    }
+  },
+  {
+    "schema_version": 1,
+    "destination_id": "google_local_hawaii:004727fd904c179a7289997a1d5a2df695473f4c7f8a010fa46a0e94fa994528",
+    "name": "Kalaupapa National Historical Park",
+    "kind": "attraction",
+    "country": "United States",
+    "city_or_region": "Hawaii",
+    "latitude": 21.1924062,
+    "longitude": -156.96650929999998,
+    "categories": [
+      "Historical landmark",
+      "National park",
+      "Nature preserve",
+      "Tourist attraction"
+    ],
+    "description": null,
+    "address": null,
+    "data_source": "google_local_hawaii",
+    "source_id": "0x7eaac7cc19d38ab1:0xa6c01bac6c94890",
+    "geographic_coverage": "Hawaii, United States: prepared attraction subset",
+    "model_compatibility": [
+      "metadata_preference",
+      "hawaii_bpr"
+    ],
+    "provenance": {
+      "country_basis": "explicit Hawaii dataset context; coordinates checked against conservative Hawaii regional bounds",
+      "fixture_notice": "Public-place metadata subset only; no user profiles, reviews, ratings or interactions."
+    }
+  },
+  {
+    "schema_version": 1,
+    "destination_id": "webis_tripadvisor_2014:0025cf49753cda619cc515924b0f374d792ca184566a66a625b8eb77f75af87e",
+    "name": "Residenza Menni",
+    "kind": "hotel",
+    "country": "Italy",
+    "city_or_region": "Rome",
+    "latitude": null,
+    "longitude": null,
+    "categories": [],
+    "description": null,
+    "address": null,
+    "data_source": "webis_tripadvisor_2014",
+    "source_id": "reviews/Residenza_Menni.json",
+    "geographic_coverage": "International historical hotel metadata; source country/territory labels",
+    "model_compatibility": [
+      "metadata_preference"
+    ],
+    "provenance": {
+      "country_basis": "source location.country with explicit aliases; missing/non-country labels remain null",
+      "fixture_notice": "Public-place metadata subset only; no user profiles, reviews, ratings or interactions."
+    }
+  }
+]

@@ -1,0 +1,4 @@
+# Install CPU PyTorch first using the command in SEMANTIC_RECOMMENDER.md.
+torch==2.6.0
+sentence-transformers==3.4.1
+transformers==4.49.0

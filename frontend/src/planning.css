@@ -1,0 +1,202 @@
+:root {
+  --ink: #173b36;
+  --accent: #b14c30;
+}
+body {
+  background: #f8f7f2;
+  color: #243e39;
+}
+h1,
+h2,
+h3 {
+  letter-spacing: -0.025em;
+}
+.panel,
+.destination-card {
+  border-radius: 20px;
+  box-shadow: 0 5px 24px #173b3607;
+}
+.planning-board {
+  margin: 24px 0 32px;
+  padding: 30px;
+  border: 1px solid #d8e3db;
+  border-radius: 24px;
+  background: linear-gradient(120deg, #eaf1e8, #fffdf6);
+}
+.planning-intro h2 {
+  margin: 8px 0;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+.planning-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 26px 0;
+}
+.planning-grid article {
+  padding: 22px;
+  background: #ffffffc9;
+  border-radius: 16px;
+  border: 1px solid #dce4db;
+}
+.planning-step {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #5b7469;
+}
+.shared-dates {
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+.member-plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.member-plans article {
+  border-top: 2px solid #b4c9b6;
+  padding: 14px 4px;
+  overflow-wrap: anywhere;
+}
+.member-plans p {
+  margin: 7px 0;
+  font-size: 0.88rem;
+}
+.coverage-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.coverage-pills span {
+  font-size: 0.8rem;
+  border-radius: 20px;
+  padding: 7px 11px;
+  background: #e6eee4;
+}
+.voting-board {
+  margin: 24px 0;
+}
+.voting-board progress {
+  width: 100%;
+  height: 9px;
+  accent-color: #376b50;
+}
+.comparison-scroll {
+  overflow: auto;
+}
+.voting-board table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  text-align: left;
+  font-size: 0.9rem;
+}
+.voting-board caption {
+  text-align: left;
+  font-weight: 700;
+  padding: 12px 0;
+}
+.voting-board th,
+.voting-board td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e5de;
+}
+.voter-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.voter-list li {
+  background: #f2f4ed;
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: grid;
+  gap: 5px;
+}
+.voter-list span {
+  font-size: 0.85rem;
+}
+.hero {
+  background: radial-gradient(ellipse at 90% 10%, #deeadc 0, transparent 60%);
+}
+.journey-highlights {
+  display: flex;
+  gap: 18px;
+  padding-top: 24px;
+  margin-top: 24px;
+  border-top: 1px solid #d4dfd2;
+}
+.journey-highlights span {
+  display: grid;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: #8a5d41;
+}
+.journey-highlights strong {
+  color: #355a49;
+  font-weight: 500;
+  font-size: 0.83rem;
+}
+.hero-art {
+  box-shadow: 14px 18px 0 #e6eadd;
+  border: 1px solid #cfdbcd;
+}
+.button {
+  border-radius: 9px;
+}
+.card-art {
+  border-bottom: 1px solid #dce4d6;
+}
+.card-body h3 {
+  line-height: 1.25;
+}
+.steps article {
+  background: #fffdf8;
+  padding: 25px;
+  border: 1px solid #e0e5da;
+  border-radius: 16px;
+}
+.coverage-pills button {
+  border: 1px solid #bfd0bc;
+  background: #e6eee4;
+  color: #254d3d;
+  padding: 9px 12px;
+  border-radius: 18px;
+  font-size: 0.82rem;
+}
+.tabs {
+  position: relative;
+  border-radius: 14px;
+  padding: 7px;
+  background: #e9eee6;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #b8673b;
+  outline-offset: 3px;
+}
+@media (max-width: 700px) {
+  .planning-board {
+    padding: 20px 16px;
+  }
+  .planning-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .planning-grid article {
+    padding: 18px;
+  }
+  .member-plans {
+    grid-template-columns: 1fr;
+  }
+  .voting-board th,
+  .voting-board td {
+    padding: 10px 5px;
+  }
+}

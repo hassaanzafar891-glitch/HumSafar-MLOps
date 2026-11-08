@@ -1,0 +1,5 @@
+outs:
+- md5: 641bc00867566c9d2e561ec485428f79
+  size: 22476
+  hash: md5
+  path: tfidf_baseline.joblib

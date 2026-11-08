@@ -1,0 +1,11 @@
+.venv/
+.local/
+backend/var/
+frontend/node_modules/
+frontend/.npm-cache/
+frontend/dist/
+frontend/test-results/
+data/processed/hawaii/test.csv
+data/processed/hawaii/interactions.csv
+models/minilm/encoder/
+models/hf_cache/

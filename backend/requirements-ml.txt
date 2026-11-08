@@ -1,0 +1,7 @@
+# Matching CPU PyTorch must be installed from its CPU index first.
+numpy==2.5.4
+pandas==3.1.1
+scikit-learn==1.9.1
+scipy==1.18.1
+joblib==1.6.0
+torch==2.6.0+cpu

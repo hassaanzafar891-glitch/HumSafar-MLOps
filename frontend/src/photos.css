@@ -1,0 +1,126 @@
+.destination-photo {
+  margin: 0;
+  background: #eff1eb;
+}
+.destination-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.photo-card img {
+  aspect-ratio: 16/10;
+  object-fit: cover;
+}
+.destination-photo figcaption {
+  padding: 9px 13px;
+  font-size: 0.66rem;
+  line-height: 1.5;
+  color: #4b5e51;
+  background: #f4f5ef;
+  overflow-wrap: anywhere;
+}
+.destination-photo figcaption a {
+  text-underline-offset: 2px;
+}
+.destination-photo figcaption span {
+  display: block;
+  font-size: 0.62rem;
+  margin-top: 3px;
+}
+.photo-detail {
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 18px 0;
+}
+.photo-detail img {
+  max-height: 430px;
+  object-fit: contain;
+  background: #e3e8dc;
+}
+.photo-itinerary {
+  max-width: 560px;
+  margin: 16px 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.photo-itinerary img {
+  max-height: 270px;
+  object-fit: cover;
+}
+.photo-fallback small {
+  font-size: 0.65rem;
+  text-align: center;
+  padding: 0 10px;
+}
+.cards {
+  align-items: start;
+}
+.destination-card > .photo-fallback {
+  height: auto;
+  aspect-ratio: 16/10;
+}
+.destination-card .card-body {
+  padding: 22px;
+}
+.destination-card h3 {
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+.destination-card .vote-count {
+  border-top: 1px solid #e4e9e0;
+  padding-top: 14px;
+  margin-top: 18px;
+}
+.recommendation-context {
+  margin: 20px 0;
+  padding: 16px 20px;
+  border: 1px solid #dce2da;
+  border-radius: 14px;
+  background: #fffdf8;
+}
+.recommendation-mode {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.recommendation-mode strong {
+  display: block;
+  color: #234e3e;
+  margin-bottom: 5px;
+}
+.recommendation-mode span {
+  color: #56695d;
+}
+.recommendation-explainer {
+  margin-top: 12px;
+  font-size: 0.88rem;
+}
+.recommendation-explainer summary {
+  font-weight: 600;
+  padding: 6px 0;
+}
+.recommendation-explainer li {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+.recommendation-explainer > div {
+  border-top: 1px solid #e3e7df;
+  margin-top: 10px;
+  padding-top: 4px;
+}
+.planning-alert {
+  background: #fff1df;
+  border-left: 4px solid #a35c24;
+  padding: 12px 15px;
+  color: #623b18;
+  line-height: 1.6;
+  border-radius: 5px;
+}
+.individual-list-note {
+  font-size: 0.88rem;
+  margin: 10px 0 0;
+}
+@media (max-width: 700px) {
+  .photo-card img {
+    aspect-ratio: 16/10;
+  }
+}

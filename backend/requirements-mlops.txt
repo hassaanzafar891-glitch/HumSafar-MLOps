@@ -1,0 +1,5 @@
+dvc==3.67.1
+mlflow-skinny==3.18.0
+alembic>=1.13,<2
+SQLAlchemy>=2,<3
+PyYAML>=6,<7

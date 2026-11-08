@@ -1,0 +1,5 @@
+outs:
+- md5: 12e29c3053a8f84b70993befd664b8d9
+  size: 58602
+  hash: md5
+  path: hawaii_inspection.json

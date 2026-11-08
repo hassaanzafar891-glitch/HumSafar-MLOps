@@ -1,0 +1,5 @@
+outs:
+- md5: 7d45bcbc3fa889f686ec1520e25f1654
+  size: 51506
+  hash: md5
+  path: destinations_cleaned.csv
