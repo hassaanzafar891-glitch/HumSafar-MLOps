@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "origin": "verified_existing_artifact_metadata_snapshot",
+  "stages_executed": false,
+  "models_trained": false,
+  "heldout_evaluated": false,
+  "git_commit_created": false,
+  "method": "Native non-forced DVC commit --no-relink, with six explicitly reviewed confirmations; execution opt-in disabled.",
+  "previous_lock_sha256": "935f471470f8fc13d4b443db3aae347d498db457021d44a76a2ff87783c9f247",
+  "current_lock_sha256": "7f17eba2dce534f71a3423dfe87d866bdd097cd9b1213daffdf0731fe5c381c0",
+  "preserved_objects": [
+    {
+      "path": "data/processed/hawaii/attraction_mapping.csv",
+      "hash": "md5",
+      "md5": "aa9938d6b30b5022bd223523921581d4",
+      "size": 65339
+    },
+    {
+      "path": "data/processed/hawaii/attractions.jsonl",
+      "hash": "md5",
+      "md5": "a19d14bc79522a22a90e732402366370",
+      "size": 1515535
+    },
+    {
+      "path": "data/processed/hawaii/audit.json",
+      "hash": "md5",
+      "md5": "cbd00cb321a4e7391a90f1ef10b522f3",
+      "size": 9198
+    },
+    {
+      "path": "data/processed/hawaii/train.csv",
+      "hash": "md5",
+      "md5": "e68143be363a09b053c6a32c99feca90",
+      "size": 17569012
+    },
+    {
+      "path": "data/processed/hawaii/user_mapping.csv",
+      "hash": "md5",
+      "md5": "bb57451b97787bb935255b874baf084a",
+      "size": 740242
+    },
+    {
+      "path": "data/processed/hawaii/validation.csv",
+      "hash": "md5",
+      "md5": "c4a6d832e6f84938a798dc04dc8bcd30",
+      "size": 2490661
+    },
+    {
+      "path": "data/processed/hawaii/baseline_validation_metrics.json",
+      "hash": "md5",
+      "md5": "0629878fe306321b9a62448b5260e8bd",
+      "size": 3375
+    },
+    {
+      "path": "models/hawaii_baselines/baselines.joblib",
+      "hash": "md5",
+      "md5": "108739646d9b2045c34307185608a87a",
+      "size": 759709
+    },
+    {
+      "path": "models/hawaii_baselines/item_statistics.csv",
+      "hash": "md5",
+      "md5": "ccd227385e3fe448dafb553f658cf5d6",
+      "size": 86249
+    },
+    {
+      "path": "models/hawaii_baselines/manifest.json",
+      "hash": "md5",
+      "md5": "4089150d0387a9458c7e58501bf1731c",
+      "size": 916
+    },
+    {
+      "path": "data/processed/hawaii/matrix_factorization_search.json",
+      "hash": "md5",
+      "md5": "6a5e866a26f4f7d2592424e137ae4d90",
+      "size": 19676
+    },
+    {
+      "path": "data/processed/hawaii/matrix_factorization_validation_metrics.json",
+      "hash": "md5",
+      "md5": "e0ae3191656b74c0a9f38224ac9632dc",
+      "size": 3547
+    },
+    {
+      "path": "models/hawaii_matrix_factorization/config.json",
+      "hash": "md5",
+      "md5": "2514f006fdae429876d320e112b615cc",
+      "size": 2685
+    },
+    {
+      "path": "models/hawaii_matrix_factorization/metadata.json",
+      "hash": "md5",
+      "md5": "7d669007ea38d90b89c1d548e9be9fef",
+      "size": 10617638
+    },
+    {
+      "path": "models/hawaii_matrix_factorization/model.npz",
+      "hash": "md5",
+      "md5": "7ff6c97426d0f0eb4ff601425358c086",
+      "size": 1740085
+    },
+    {
+      "path": "data/processed/hawaii/bpr_search.json",
+      "hash": "md5",
+      "md5": "3f990bc729c2984437a75eb1d5e5868a",
+      "size": 20583
+    },
+    {
+      "path": "data/processed/hawaii/bpr_validation_metrics.json",
+      "hash": "md5",
+      "md5": "56c00587307d534b39f306ea994ab35a",
+      "size": 3621
+    },
+    {
+      "path": "models/hawaii_bpr/config.json",
+      "hash": "md5",
+      "md5": "82dbd4cdb9a96f9b28bad05047e0d0e1",
+      "size": 3310
+    },
+    {
+      "path": "models/hawaii_bpr/metadata.json",
+      "hash": "md5",
+      "md5": "50360bdadda4980e1f08c20b6ec12fa2",
+      "size": 10617628
+    },
+    {
+      "path": "models/hawaii_bpr/model.npz",
+      "hash": "md5",
+      "md5": "0446d96e274425eaf1705664be3d8c5f",
+      "size": 3227335
+    },
+    {
+      "path": "data/processed/hawaii/group_validation_details.json",
+      "hash": "md5",
+      "md5": "7b567b5395b4ca615037c4f99555e2c2",
+      "size": 10130617
+    },
+    {
+      "path": "data/processed/hawaii/group_validation_metrics.json",
+      "hash": "md5",
+      "md5": "15564df03ca0005a062d9cdabb5fe7ff",
+      "size": 14972
+    },
+    {
+      "path": "models/hawaii_group_consensus/config.json",
+      "hash": "md5",
+      "md5": "59162937c581bb089f5fa94a49edc018",
+      "size": 3793
+    },
+    {
+      "path": "data/processed/international/catalog.jsonl",
+      "hash": "md5",
+      "md5": "3c9e0343bb465310e9befe23406ad226",
+      "size": 17386642
+    },
+    {
+      "path": "data/processed/international/coverage.json",
+      "hash": "md5",
+      "md5": "56838677face3e4dfd2da453af1be077",
+      "size": 6856
+    },
+    {
+      "path": "data/processed/international/coverage_by_country.csv",
+      "hash": "md5",
+      "md5": "17344a53ff357cdf67a322eff64319c6",
+      "size": 2130
+    },
+    {
+      "path": "data/processed/international/schema.json",
+      "hash": "md5",
+      "md5": "44cb84f34a4230205b6e3810dfeabce0",
+      "size": 2483
+    },
+    {
+      "md5": "7d45bcbc3fa889f686ec1520e25f1654",
+      "size": 51506,
+      "hash": "md5",
+      "path": "data/processed/destinations_cleaned.csv"
+    },
+    {
+      "md5": "12e29c3053a8f84b70993befd664b8d9",
+      "size": 58602,
+      "hash": "md5",
+      "path": "data/processed/hawaii_inspection.json"
+    },
+    {
+      "md5": "641bc00867566c9d2e561ec485428f79",
+      "size": 22476,
+      "hash": "md5",
+      "path": "models/tfidf_baseline.joblib"
+    }
+  ],
+  "new_uncached_prepare_outputs": [
+    {
+      "path": "data/processed/hawaii/interactions.csv",
+      "hash": "md5",
+      "md5": "e1a44627890594293900ce1f7239053f",
+      "size": 22549434
+    },
+    {
+      "path": "data/processed/hawaii/test.csv",
+      "hash": "md5",
+      "md5": "579caeecbd226301128983b52890cee2",
+      "size": 2489933
+    }
+  ],
+  "original_producer_output_sha256": {
+    "data/processed/hawaii/test.csv": "889f30d249bb8764d21bf48746b460fd7f186ca55283c1b453a5f5b5cf3b34ef",
+    "data/processed/hawaii/interactions.csv": "f012ce3383a3e8e9c7878e3125e27e86e37bef93e143d76e1942545145e0d722"
+  },
+  "mlflow_files_unchanged": 19,
+  "limitations": [
+    "No isolated clean rebuild was executed.",
+    "The revised lock is an inventory snapshot, not proof of executing the revised commands.",
+    "Raw archives and uncached held-out outputs require authorized private acquisition/backup."
+  ]
+}

@@ -2,19 +2,30 @@ stages:
   prepare:
     cmd: ${runtime.python} -m backend.mlops.pipeline prepare
     deps:
+    - .dvcignore
     - backend/inspect_hawaii.py
     - backend/mlops/definitions.py
+    - backend/mlops/external_inputs.json
     - backend/mlops/pipeline.py
-    - backend/mlops/tracking.py
+    - backend/mlops/runtime_versions.json
     - backend/prepare_hawaii.py
+    - backend/requirements-mlops.txt
     - data/processed/hawaii_inspection.json
     - data/raw/meta-Hawaii.json.gz
     - data/raw/review-Hawaii_10.json.gz
+    params:
+    - runtime.python
     outs:
     - data/processed/hawaii/train.csv:
         persist: true
     - data/processed/hawaii/validation.csv:
         persist: true
+    - data/processed/hawaii/test.csv:
+        persist: true
+        cache: false
+    - data/processed/hawaii/interactions.csv:
+        persist: true
+        cache: false
     - data/processed/hawaii/user_mapping.csv:
         persist: true
     - data/processed/hawaii/attraction_mapping.csv:
@@ -28,11 +39,16 @@ stages:
     deps:
     - backend/mlops/definitions.py
     - backend/mlops/pipeline.py
+    - backend/mlops/runtime_versions.json
     - backend/mlops/tracking.py
+    - backend/requirements-ml.txt
+    - backend/requirements-mlops.txt
     - backend/train_baselines.py
     - data/processed/hawaii/attraction_mapping.csv
     - data/processed/hawaii/train.csv
     - data/processed/hawaii/validation.csv
+    params:
+    - runtime.python
     outs:
     - data/processed/hawaii/baseline_validation_metrics.json:
         persist: true
@@ -47,13 +63,18 @@ stages:
     deps:
     - backend/mlops/definitions.py
     - backend/mlops/pipeline.py
+    - backend/mlops/runtime_versions.json
     - backend/mlops/tracking.py
+    - backend/requirements-ml.txt
+    - backend/requirements-mlops.txt
     - backend/train_baselines.py
     - backend/train_matrix_factorization.py
     - data/processed/hawaii/attraction_mapping.csv
     - data/processed/hawaii/baseline_validation_metrics.json
     - data/processed/hawaii/train.csv
     - data/processed/hawaii/validation.csv
+    params:
+    - runtime.python
     outs:
     - data/processed/hawaii/matrix_factorization_validation_metrics.json:
         persist: true
@@ -70,7 +91,10 @@ stages:
     deps:
     - backend/mlops/definitions.py
     - backend/mlops/pipeline.py
+    - backend/mlops/runtime_versions.json
     - backend/mlops/tracking.py
+    - backend/requirements-ml.txt
+    - backend/requirements-mlops.txt
     - backend/train_baselines.py
     - backend/train_bpr.py
     - data/processed/hawaii/attraction_mapping.csv
@@ -78,6 +102,8 @@ stages:
     - data/processed/hawaii/matrix_factorization_validation_metrics.json
     - data/processed/hawaii/train.csv
     - data/processed/hawaii/validation.csv
+    params:
+    - runtime.python
     outs:
     - data/processed/hawaii/bpr_validation_metrics.json:
         persist: true
@@ -96,7 +122,10 @@ stages:
     - backend/group_consensus.py
     - backend/mlops/definitions.py
     - backend/mlops/pipeline.py
+    - backend/mlops/runtime_versions.json
     - backend/mlops/tracking.py
+    - backend/requirements-ml.txt
+    - backend/requirements-mlops.txt
     - backend/train_baselines.py
     - backend/train_bpr.py
     - data/processed/hawaii/train.csv
@@ -104,6 +133,8 @@ stages:
     - models/hawaii_bpr/config.json
     - models/hawaii_bpr/metadata.json
     - models/hawaii_bpr/model.npz
+    params:
+    - runtime.python
     outs:
     - data/processed/hawaii/group_validation_metrics.json:
         persist: true
@@ -117,13 +148,18 @@ stages:
     - backend/build_catalog.py
     - backend/catalog.py
     - backend/mlops/definitions.py
+    - backend/mlops/external_inputs.json
     - backend/mlops/pipeline.py
-    - backend/mlops/tracking.py
+    - backend/mlops/runtime_versions.json
+    - backend/requirements-ml.txt
+    - backend/requirements-mlops.txt
     - backend/train_baselines.py
     - data/processed/destinations_cleaned.csv
     - data/processed/hawaii/attractions.jsonl
     - data/raw/corpus-webis-tripad-14.tar.gz
     - models/hawaii_bpr/metadata.json
+    params:
+    - runtime.python
     outs:
     - data/processed/international/catalog.jsonl:
         persist: true

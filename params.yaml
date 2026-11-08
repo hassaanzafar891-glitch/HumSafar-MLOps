@@ -1,2 +1,2 @@
 runtime:
-  python: .venv/Scripts/python.exe
+  python: python

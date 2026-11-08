@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "storage_policy": "operator_supplied_private_archives; not uploaded or redistributed by this repository",
+  "files": [
+    {
+      "path": "data/raw/meta-Hawaii.json.gz",
+      "bytes": 4751865,
+      "sha256": "13d5da25fc3113fb7134e276f6feaa9b51fa562f5619b62c05f4d11b6b13f78a",
+      "publisher": "https://mcauleylab.ucsd.edu/public_datasets/gdrive/googlelocal/"
+    },
+    {
+      "path": "data/raw/review-Hawaii_10.json.gz",
+      "bytes": 127307636,
+      "sha256": "fc8b020f2a765e09241c982e533dd7b4c55c4dc866b7e4b50f0954c46c097be8",
+      "publisher": "https://mcauleylab.ucsd.edu/public_datasets/gdrive/googlelocal/"
+    },
+    {
+      "path": "data/raw/corpus-webis-tripad-14.tar.gz",
+      "bytes": 63067862,
+      "sha256": "ad3271d5d81c30e382a496f57d2335e0db8396a35fbeb4dac127be73844119fb",
+      "publisher": "https://webis.de/data/webis-tripad-14.html"
+    }
+  ]
+}

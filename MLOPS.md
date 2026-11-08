@@ -1,5 +1,12 @@
 # Step 28: reproducibility without retraining or test-set access
 
+**Current configuration:** DVC is now Git-integrated, with its active site cache
+on E:. Portable commands, environment dependencies, and uncached preparation-only
+outputs are defined in the current pipeline. Read
+[PIPELINE_REPRODUCIBILITY.md](PIPELINE_REPRODUCIBILITY.md) and
+[RAW_INPUTS.md](RAW_INPUTS.md) for the current rules. The Step 28 account below is
+historical; its original no-SCM setup and held-out-ignore policy are superseded.
+
 This workspace initially had no local Git repository. DVC was initialized with
 --no-scm; no GitHub repository, remote Git repository, commit or push was created.
 GitHub Actions configuration is supplied, but no hosted CI execution is claimed.
@@ -10,6 +17,7 @@ There is no new model training, test evaluation or deployment in this step.
 All default paths resolve beneath E:\GroupTravelMLOps:
 
 - .local/dvc-cache: private content-addressed DVC cache, copy link type.
+- .local/dvc-site-cache: active DVC internal status/index bookkeeping on E:.
 - .local/dvc-remote: private default local DVC remote named dev.
 - .local/mlflow/tracking.db: MLflow SQLite metadata backend.
 - .local/mlflow/artifacts: configuration/report provenance artifacts.
@@ -137,11 +145,9 @@ Preparation can regenerate splits; training can replace its declared outputs.
 Do not use --force casually. This task did NOT set the opt-in or execute stages.
 When taking an approved existing-output snapshot instead of rebuilding:
 
-    .venv/Scripts/python.exe -m dvc commit --force --no-relink
-    .venv/Scripts/python.exe -m dvc push
-
-This records current content; it never proves training execution. Document why
-an inventory snapshot is appropriate rather than disguising it as a fresh run.
+Follow the verified, non-forced snapshot procedure and evidence described in
+PIPELINE_REPRODUCIBILITY.md. Do not override unexpected hash mismatches or upload
+private artifacts. An inventory snapshot never proves training execution.
 
 ## MLflow: truthful historical imports and future runs
 

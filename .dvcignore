@@ -5,7 +5,6 @@ frontend/node_modules/
 frontend/.npm-cache/
 frontend/dist/
 frontend/test-results/
-data/processed/hawaii/test.csv
-data/processed/hawaii/interactions.csv
+# Held-out files are explicit uncached prepare outputs, never consumer inputs.
 models/minilm/encoder/
 models/hf_cache/
