@@ -1,0 +1,25 @@
+**
+!Dockerfile
+!nginx.conf
+!package.json
+!package-lock.json
+!index.html
+!vite.config.js
+!src/
+!src/**
+!public/
+!public/**
+src/**/*.test.js
+src/**/*.test.jsx
+src/test/
+# Never admit private files placed under an otherwise allowed source directory.
+**/.env
+**/.env.*
+**/*.env
+**/*.pem
+**/*.key
+**/*.sqlite
+**/*.sqlite3
+**/*.db
+**/node_modules
+**/__pycache__

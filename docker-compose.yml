@@ -1,0 +1,61 @@
+name: humsafar
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+      additional_contexts:
+        wheels: ./.local/docker-wheels
+    environment:
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?Supply a private JWT secret using --env-file .local/docker.env}
+      DATABASE_URL: sqlite:////state/humsafar.db
+      ACCESS_TOKEN_MINUTES: ${ACCESS_TOKEN_MINUTES:-30}
+      AUTO_INIT_DB: "true"
+    user: "${HUMSAFAR_UID:-10001}:${HUMSAFAR_GID:-10001}"
+    volumes:
+      - type: bind
+        source: ${HUMSAFAR_ARTIFACT_DIR:-./.local/docker-runtime}
+        target: /opt/humsafar-artifacts
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${HUMSAFAR_STATE_DIR:-./.local/docker-state}
+        target: /state
+        bind:
+          create_host_path: false
+    networks: [api]
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=64m"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: "3"}
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:${HUMSAFAR_HTTP_PORT:-8080}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks: [edge, api]
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=32m,uid=101,gid=101"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: "3"}
+
+networks:
+  edge: {}
+  api:
+    internal: true
