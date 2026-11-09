@@ -17,6 +17,7 @@
 !docker/backend/Dockerfile
 !docker/backend/constraints.txt
 !docker/backend/entrypoint.py
+!docker/backend/logging.json
 **/.env
 **/.env.*
 **/*.env

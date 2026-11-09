@@ -9,6 +9,10 @@ Nginx strips `/api/` exactly as the existing Vite development proxy does.
 - Backend health through Nginx: http://localhost:8080/api/health
 - Swagger: http://localhost:8080/api/docs
 
+Local authenticated metrics and privacy-safe structured logging are described
+in [MONITORING.md](MONITORING.md). Monitoring counters reset on backend restart;
+the SQLite database remains persistent.
+
 ## Verified results
 
 Both images built successfully and both containers are healthy:

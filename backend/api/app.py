@@ -20,6 +20,7 @@ from backend.api import schemas as s
 from backend.api.security import PASSWORDS,DUMMY_HASH,access_token,decode_token,invitation,invite_digest,verify_password
 from backend.catalog import coverage
 from backend.recommendation_service import RecommendationService
+from backend.api.monitoring import Metrics,MonitoringMiddleware,approaches_from_payload
 
 
 def create_app(settings=None,service=None):
@@ -49,6 +50,9 @@ def create_app(settings=None,service=None):
         if request.url.path.startswith(('/auth','/users','/groups')):
             response.headers['Cache-Control']='no-store'
         return response
+
+    app.state.metrics=Metrics()
+    app.add_middleware(MonitoringMiddleware,metrics=app.state.metrics)
 
     def limited(request,action,limit=20,window=60):
         key=(action,request.client.host if request.client else 'unknown')
@@ -128,6 +132,11 @@ def create_app(settings=None,service=None):
     @app.exception_handler(IntegrityError)
     async def conflict(_request,_exc):
         return JSONResponse(status_code=409,content={'detail':'Conflicting or invalid database record; reload and retry'})
+
+    @app.get('/metrics',tags=['system'],include_in_schema=False)
+    def metrics(_user:User=Depends(current_user)):
+        return Response(app.state.metrics.render(),media_type='text/plain; version=0.0.4',
+                        headers={'Cache-Control':'no-store'})
 
     @app.get('/health',response_model=s.HealthOut,tags=['system'])
     def health():return {'status':'ok','schema_version':1}
@@ -296,7 +305,10 @@ def create_app(settings=None,service=None):
         if group.revision!=revision:raise HTTPException(409,'Group preferences/membership changed during scoring; retry')
         row=GroupRecommendation(group_id=group_id,created_by=user.id,group_revision=revision,
             method='individual' if individual else body.method,filters=filters,warnings=notices,payload=payload)
-        db.add(row);db.commit();return recommendation_out(row,group)
+        db.add(row);db.commit()
+        request.state.monitoring_approaches=approaches_from_payload(payload)
+        request.state.monitoring_aggregation='individual' if individual else body.method
+        return recommendation_out(row,group)
 
     @app.post('/groups/{group_id}/recommendations',response_model=s.RecommendationOut,status_code=201,tags=['recommendations'])
     def recommend_group(group_id:str,body:s.RecommendationRequest,request:Request,user:User=Depends(current_user),db:Session=Depends(get_db)):

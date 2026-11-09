@@ -12,7 +12,8 @@ def main():
     # It replaces incoming forwarding headers; do not publish backend port 8000.
     os.execvp('python', ['python', '-m', 'uvicorn', 'backend.api.app:create_app',
         '--factory', '--host', '0.0.0.0', '--port', '8000', '--workers', '1',
-        '--root-path', '/api', '--proxy-headers', '--forwarded-allow-ips', '*'])
+        '--root-path', '/api', '--proxy-headers', '--forwarded-allow-ips', '*',
+        '--no-access-log', '--log-config', 'docker/backend/logging.json'])
 
 if __name__ == '__main__':
     main()

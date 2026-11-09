@@ -22,6 +22,7 @@ COPY backend/api /app/backend/api
 COPY backend/catalog.py backend/group_consensus.py backend/recommendation_service.py backend/recommender.py backend/train_baselines.py backend/train_bpr.py /app/backend/
 COPY docker/humsafar_artifacts.py /app/docker/humsafar_artifacts.py
 COPY docker/backend/entrypoint.py /app/docker/backend/entrypoint.py
+COPY docker/backend/logging.json /app/docker/backend/logging.json
 RUN mkdir -p /app/data/processed/international /state \
     && ln -s /opt/humsafar-artifacts/catalog/catalog.jsonl /app/data/processed/international/catalog.jsonl \
     && ln -s /opt/humsafar-artifacts/models /app/models \
