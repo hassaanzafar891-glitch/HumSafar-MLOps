@@ -49,8 +49,11 @@ unit tests and the production frontend build.
 ## Storage
 
 Docker Engine 29.8.2 and Compose 5.6.0 were verified. Docker VHDs are under
-`E:\DockerData\DockerDesktopWSL`. After building, E: had approximately 127 GiB
-free and C: approximately 4.1 GiB free. No images, volumes or caches were deleted.
+`E:\DockerData\DockerDesktopWSL`. The original build snapshot had approximately
+127 GiB free on E: and 4.1 GiB on C:. At Step 30.3, E: still had approximately
+128 GiB free, while C: had only about 1 GiB. Availability changes: check
+`Get-PSDrive C,E` before future builds and keep large storage/temp files on E:.
+No images, volumes or caches were deleted.
 The unrelated SQLiLab web/MySQL containers were left running and unchanged.
 
 Project runtime state, artifacts, dependency wheels and temporary test files are

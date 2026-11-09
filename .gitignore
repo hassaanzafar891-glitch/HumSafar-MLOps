@@ -96,6 +96,8 @@ dvc-remotes/
 !/data/
 !/data/**/
 !/data/**/*.dvc
+# Reviewed aggregate final metrics only; no interaction data or private ledger.
+!/data/processed/hawaii/final_test_evaluation.json
 /models/**
 !/models/
 !/models/**/

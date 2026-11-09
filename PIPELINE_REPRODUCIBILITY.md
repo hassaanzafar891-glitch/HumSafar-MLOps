@@ -1,5 +1,10 @@
 # Pipeline metadata refresh: no new training
 
+This page records the earlier metadata-refresh provenance. Current status and
+the subsequently completed one-shot final test evaluation are documented in
+[MLOPS.md](MLOPS.md) and [FINAL_EVALUATION.md](FINAL_EVALUATION.md). The final
+driver is deliberately outside the training pipeline and must not be rerun.
+
 The six stages still call the existing preparation, baseline, MF, BPR, group
 evaluation and catalog implementations. Those scientific scripts and the stage
 execution gate were not changed. All data/model contents and MLflow records were
@@ -55,7 +60,7 @@ Only hashing was performed: no ratings were parsed or evaluated. The unchanged
 preparation implementation is their declared producer; no regeneration was run
 to demonstrate a new end-to-end result.
 
-No consumer may declare either file as an input. `validate_layout` and data-free
+No training-pipeline consumer may declare either file as an input. `validate_layout` and data-free
 tests enforce that rule and reject cached held-out outputs. Git still ignores
 all dataset contents. Uncached outputs are not copied into the DVC object cache,
 uploaded, or recoverable by `dvc pull`. Missing copies make preparation stale:

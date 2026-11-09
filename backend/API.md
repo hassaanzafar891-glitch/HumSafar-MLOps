@@ -1,5 +1,12 @@
 # HumSafar REST backend (Step 26)
 
+This document retains the original API implementation account. For current
+product coverage, Docker startup, privacy-safe monitoring and the completed
+held-out evaluation, start with [README](../README.md),
+[architecture](../ARCHITECTURE.md) and the [demo guide](../DEMO.md).
+The frontend is now implemented; no deployment or new-user historical-identity
+linkage is implied by the older step-specific statements below.
+
 FastAPI routes wrap the existing recommendation service and Step 24 consensus
 implementation. SQLAlchemy ORM persists application data separately from all
 datasets and model artifacts. No model fitting, test-split access, historical
@@ -11,7 +18,8 @@ Run PowerShell in E:\GroupTravelMLOps with the existing ML virtual environment:
 
 ```powershell
 .venv\Scripts\python.exe -m pip install -r backend\requirements-api.txt
-Copy-Item .env.example .env
+# Only on initial setup if .env does not already exist; never replace a secret.
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 .venv\Scripts\python.exe -c "import secrets; print(secrets.token_urlsafe(48))"
 ```
 
@@ -21,7 +29,7 @@ example text as a secret. Keep .env private; it and backend/var are ignored by
 
 ```powershell
 .venv\Scripts\python.exe -m backend.api.init_db
-.venv\Scripts\python.exe -m uvicorn backend.api.app:create_app --factory --host 127.0.0.1 --port 8000
+.venv\Scripts\python.exe -m uvicorn backend.api.app:create_app --factory --host 127.0.0.1 --port 8000 --no-access-log --log-config docker/backend/logging.json
 ```
 
 Swagger: http://127.0.0.1:8000/docs ; ReDoc: /redoc ; schema: /openapi.json.
@@ -190,7 +198,9 @@ consensus results, votes, persists an itinerary and verifies it through a new
 app/engine instance. It then removes the temporary database. Sanitized evidence
 is written to backend/var/api_workflow_demo.json, with no passwords, JWTs or
 invitation codes. These fixtures are NOT genuine recommendation training data.
-The default backend/var/humsafar.db remains empty until real application use.
+The temporary demonstration does not alter the native backend/var database.
+Existing application databases may already contain local accounts and plans;
+do not assume they are empty or reset them as a setup step.
 
 Dependencies follow the [FastAPI JWT/password tutorial](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/)
 and [SQLAlchemy SQLite foreign-key guidance](https://docs.sqlalchemy.org/en/20/dialects/sqlite.html).

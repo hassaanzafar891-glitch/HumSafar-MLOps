@@ -1,12 +1,15 @@
 # TF-IDF destination baseline
 
+This is the standalone Pakistan content baseline, not the complete application
+or the Hawaii ranking benchmark. See [current architecture](../ARCHITECTURE.md)
+and [final Hawaii results](../FINAL_EVALUATION.md). A demo loads saved artifacts;
+it must not refit this baseline or broadly discover research tests.
+
 Run from `E:\GroupTravelMLOps` with the existing virtual environment:
 
 ```powershell
-.venv/Scripts/python.exe -m backend.recommender fit
 .venv/Scripts/python.exe -m backend.recommender demo
 .venv/Scripts/python.exe -m backend.recommender recommend "mountains hiking nature"
-.venv/Scripts/python.exe -m unittest discover -s tests -v
 ```
 
 Fitting reads `data/processed/destinations_cleaned.csv` without modifying it.
@@ -17,8 +20,9 @@ are involved. Default scikit-learn TF-IDF settings otherwise apply.
 
 `models/tfidf_baseline.joblib` contains the fitted vectorizer, sparse destination
 matrix, aligned destination/category/region metadata, dataset SHA-256, vocabulary
-size, and scikit-learn version. Only load trusted artifacts. Refit explicitly
-after dataset or scikit-learn version changes; inference never refits or silently
+size, and scikit-learn version. Only load trusted artifacts using the matching
+recorded dependency versions. Refit only as a separately approved experiment,
+not as a demo compatibility workaround; inference never refits or silently
 reloads a changed dataset.
 
 For inference, import `DestinationRecommender` from `backend.recommender`, call

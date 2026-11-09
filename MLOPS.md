@@ -1,242 +1,237 @@
-# Step 28: reproducibility without retraining or test-set access
+# HumSafar MLOps workflow
 
-**Current configuration:** DVC is now Git-integrated, with its active site cache
-on E:. Portable commands, environment dependencies, and uncached preparation-only
-outputs are defined in the current pipeline. Read
-[PIPELINE_REPRODUCIBILITY.md](PIPELINE_REPRODUCIBILITY.md) and
-[RAW_INPUTS.md](RAW_INPUTS.md) for the current rules. The Step 28 account below is
-historical; its original no-SCM setup and held-out-ignore policy are superseded.
+This guide describes the current Git-integrated DVC setup, local MLflow
+provenance, frozen model references, CI and completed one-shot evaluation.
+It supersedes the original Step 28 no-SCM/no-hosted-CI account. Detailed migration
+evidence remains in [PIPELINE_REPRODUCIBILITY.md](PIPELINE_REPRODUCIBILITY.md).
+No training, artifact replacement or final test rerun is needed for a demo.
 
-This workspace initially had no local Git repository. DVC was initialized with
---no-scm; no GitHub repository, remote Git repository, commit or push was created.
-GitHub Actions configuration is supplied, but no hosted CI execution is claimed.
-There is no new model training, test evaluation or deployment in this step.
+## Sources, splits and objectives
 
-## Storage and privacy
+The Hawaii benchmark contains 234,585 deduplicated 5-core interactions:
+182,769 train, 25,908 validation and 25,908 test rows, for 25,908 users and
+1,512 attractions. Per user, the latest interaction is test, second-latest
+validation and the remainder train; timestamp ties use original attraction ID.
+Latest-review deduplication and full-graph 5-core selection are retrospective
+and introduce selection/temporal limitations.
 
-All default paths resolve beneath E:\GroupTravelMLOps:
+Training-only baselines calculate rating means and popularity counts. MF fits
+explicit ratings; BPR fits training ratings >=4 with comparisons sampled outside
+the complete training history. Missing interactions are unknown, not verified
+dislikes. Configuration selection used validation only:
 
-- .local/dvc-cache: private content-addressed DVC cache, copy link type.
-- .local/dvc-site-cache: active DVC internal status/index bookkeeping on E:.
-- .local/dvc-remote: private default local DVC remote named dev.
-- .local/mlflow/tracking.db: MLflow SQLite metadata backend.
-- .local/mlflow/artifacts: configuration/report provenance artifacts.
-- .local/tmp: project temporary files for explicitly approved pipeline executions.
-- .local/pip-cache: dependency download cache on E:, not C:.
+- MF: lowest validation rating RMSE, a rating-prediction objective.
+- BPR: highest validation NDCG@10, with deterministic tie handling.
+- Hybrid: fixed selected weight 0.75 BPR / 0.25 training popularity, selected
+  from the small validation search.
+- AGC: fixed average/minimum/fairness weights 0.5/0.3/0.2, epsilon 0.05;
+  no validation weight search was performed.
 
-Machine-local DVC cache/remote paths are in .dvc/config.local, excluded from Git.
-.local, application databases/.env, raw and processed data, model weights and
-model metadata containing user IDs are excluded. Only small .dvc pointer files,
-dvc.yaml/dvc.lock/params.yaml, code, docs, tests and the model-reference manifest
-are intended for source control. Public-place test fixtures contain only five
-small derived metadata records and no profiles, reviews, ratings or interactions.
+The final test was evaluated **once** after explicit approval and nine
+synthetic-only protocol tests. The new report is not a selection input.
 
-The DVC cache and local remote contain real user IDs and model-related private
-data: keep their Windows access permissions private and never publish them.
-DVC is versioning, not anonymization or encryption. Do not indiscriminately git
-add datasets or upload caches. Current no-SCM mode has content snapshots but no
-Git version history; adding a local Git repository/source-controlled revisions
-is a later explicit operator action. GitHub publication still needs approval.
+| Frozen ranking model | Test Recall@10 | Test NDCG@10 |
+| --- | ---: | ---: |
+| Popularity | 0.109629 | 0.052922 |
+| Matrix Factorization | 0.002600 | 0.001074 |
+| Pure BPR | 0.217623 | 0.115599 |
+| 75% BPR + 25% popularity | 0.221146 | 0.118196 |
 
-Raw archives and large pretrained MiniLM encoder/cache files are not duplicated
-into DVC here. They remain untouched in their existing local locations. Inputs
-are declared as dependencies where required; source archives must be supplied
-separately from their legitimate original sources on a fresh machine. No new
-dataset downloads were performed.
+There are 23,844 relevant-holdout users and 2,064 excluded users on test.
+Ranking uses the complete 1,512-item catalog minus training history, with
+attraction-ID tie-breaking and no sampled negatives. Validation visits remain
+candidates under this approved protocol. With one positive holdout, Recall@10
+is hit rate and NDCG@10 discounts that hit's rank.
 
-## Pipeline and artifact snapshots
+Group evaluation uses 500 fixed groups at each size 2/3/4/5, seed 2026, formed
+from training users before test observations are read. Average, least misery
+and AGC share the same candidates and frozen hybrid scores. Group relevance is
+the candidate-eligible union of observed member positives; missing ratings are
+unknown. Predicted minimum/range improved with AGC, but group NDCG was lower
+than average at every size and observed retrieval-proxy fairness was mixed.
+Do not equate model-score utility with observed human satisfaction.
 
-    prepare -> baselines -> mf -> bpr -> groups
-       \_________________________\----> catalog
+See [FINAL_EVALUATION.md](FINAL_EVALUATION.md) for every group metric, denominator,
+blocked positive and limitation. The machine-readable report is
+`data/processed/hawaii/final_test_evaluation.json`; the exclusive completed ledger
+is `.local/step30_2_test_evaluation.json`. Do not invoke the final evaluation
+driver again or delete the ledger to permit a retry. The driver is deliberately
+outside the DVC pipeline and automatic CI.
 
-The exact DAG has direct train/validation/mapping dependencies as well as these
-logical edges. Catalog building is a separate branch after preparation and BPR
-compatibility metadata. Source adapters, inspection rules and tracking wrappers
-are dependencies. Each output has persist:true so a failed opt-in check does
-not cause DVC to delete existing datasets/models first.
+## DVC: Git-integrated, local private storage
 
-The six stages call existing code through backend.mlops.pipeline; no training
-algorithm was rewritten. Hyperparameter grids/seeds are defined by the existing
-training scripts and captured in their existing config/search reports, not by
-decorative parameters that the scripts ignore. params.yaml controls the Python
-executable (.venv/Scripts/python.exe on Windows). Override this for another OS.
+DVC 3.67.1 reports `Repo: dvc, git`. The six stages are:
 
-The current dvc.lock was created with dvc commit --no-relink from EXISTING
-artifacts. It is an inventory snapshot, not evidence that these new wrappers
-were executed end-to-end. Historical reports were retained unchanged. Copy cache
-plus --no-relink avoids replacing, moving or write-protecting workspace artifacts.
-The local remote intentionally stores another recoverable copy of the selected
-outputs; large raw archives/encoders are excluded to limit duplication.
-
-Trackable outputs: Hawaii train/validation, maps, attraction metadata and audit;
-baseline/MF/BPR weights/configs/reports; group results/config; unified catalog.
-Three additional .dvc pointers track the Pakistan cleaned catalog, its fitted
-TF-IDF artifact and Hawaii inspection report. No parent directory that contains
-the held-out split is added as a DVC target.
-
-test.csv and the full interactions.csv are excluded from DVC targets/dependencies
-and .dvcignore prevents accidental traversal. The original preparation PRODUCER
-can create these files on an explicitly approved future full preparation run,
-but they are not input to selection, evaluation, tracking or checks here. Their
-known hashes already recorded in the old audit may exist as audit metadata; this
-step does not open or rehash either file. Full three-way integrity is therefore
-NOT revalidated. Treat held-out acquisition/versioning as a separate quarantined
-procedure with explicit authorization; do not dvc add the Hawaii parent folder.
-
-## Setup and no-training verification (PowerShell, project root)
-
-```powershell
-.venv\Scripts\python.exe -m pip install -r backend\requirements-mlops.txt --cache-dir E:\GroupTravelMLOps\.local\pip-cache
-.venv\Scripts\python.exe -m dvc dag
-.venv\Scripts\python.exe -m dvc repro --dry
-.venv\Scripts\python.exe -m dvc status -c
-.venv\Scripts\python.exe -m backend.mlops.quality
-.venv\Scripts\python.exe -m backend.mlops.tracking smoke
+```mermaid
+flowchart LR
+    prepare --> baselines
+    baselines --> mf
+    mf --> bpr
+    bpr --> groups
+    prepare --> catalog
+    bpr --> catalog
 ```
 
-For a fresh source checkout, create the Python environment and install the
-application/ML dependencies as well. DVC and MLflow are additions to the existing
-ML environment, not replacements for torch/sklearn/numpy. Runtime versions are
-recorded in backend/mlops/runtime_versions.json (safe package/version metadata only).
-Python 3.12 and Node 22.18 were used. Frontend dependencies are pinned by its
-package-lock.json. Original model configs also record training library versions;
-matching those matters when reproducing numerical results or loading sklearn.
+This diagram is the logical flow. `dvc.yaml` declares additional direct
+train/validation/mapping/source/config dependencies; `dvc dag` shows the exact DAG.
+The portable command form is `python -m backend.mlops.pipeline <stage>`, using
+`runtime.python` from `params.yaml`. Activate the intended Python 3.12 environment.
 
-For a fresh Windows ML environment (this task did not recreate the working venv):
+The pipeline wraps existing preparation/training/group/catalog scripts; it has
+not been independently rebuilt end-to-end after the metadata migration. Its
+lockfile records an inventory of existing artifacts, not proof that the revised
+commands generated them. Persistent outputs and the explicit execution gate
+protect routine verification from unintended replacement or retraining.
+
+Machine-local paths are in ignored `.dvc/config.local`:
+
+| Purpose | Current E: project-relative location |
+| --- | --- |
+| DVC object cache, configured copy links | `.local/dvc-cache` |
+| DVC internal site/status cache | `.local/dvc-site-cache` |
+| Default private local remote `dev` | `.local/dvc-remote` |
+| Project temporary files | `.local/tmp` |
+| MLflow database | `.local/mlflow/tracking.db` |
+| MLflow report/config artifacts | `.local/mlflow/artifacts` |
+
+The existing 30 cached objects cover processed data, fitted artifacts, reports,
+catalog outputs and three standalone DVC pointers. The latest status checks
+report the workspace/pipeline up to date and cache/remote synchronized.
+Neither a private DVC cache nor a local remote is anonymization, encryption,
+data redistribution permission or an off-machine backup.
+
+`test.csv` and `interactions.csv` are explicit preparation outputs with
+`persist: true, cache: false`. Their hashes are in the lock, but their contents
+are not uploaded/restored by DVC. They are forbidden as consumer dependencies
+in the training/selection pipeline. Test was structurally checked during
+preparation and later scored only by the approved standalone final evaluation.
+Do not claim the file was literally never read.
+
+Raw Google Local and Webis archives are externally supplied, checksum-pinned
+dependencies, not DVC-backed objects. Follow [RAW_INPUTS.md](RAW_INPUTS.md) and
+publisher terms; no automatic downloads or uploads are implied. A fresh checkout
+requires authorized artifacts and protected uncached inputs. Never run preparation
+over the existing splits to satisfy missing-input warnings.
+
+Safe inspection commands from an activated environment:
 
 ```powershell
-py -3.12 -m venv .venv
-.venv\Scripts\python.exe -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu --cache-dir E:\GroupTravelMLOps\.local\pip-cache
-.venv\Scripts\python.exe -m pip install -r backend\requirements-ml.txt -r backend\requirements-api.txt -r backend\requirements-mlops.txt --cache-dir E:\GroupTravelMLOps\.local\pip-cache
+python -m dvc version
+python -m dvc dag
+python -m dvc status
+python -m dvc status -c
+python -m backend.mlops.quality
 ```
 
-The compact requirements-ml.txt pins the installed core training packages; the
-runtime JSON records the other observed package versions. This is not a universal
-cross-platform transitive lock. A single-drive local DVC remote is not an
-off-machine disaster-recovery backup; copying/mounting private remote storage on
-another machine is a separate authorized operation.
+The quality helper checks train/validation and saved model compatibility; it does
+not read or score test. Dry reproduction inspection, if needed, is
+`python -m dvc repro --dry`. Do not execute pipeline stages for a presentation.
+`HUMSAFAR_ALLOW_PIPELINE_EXECUTION` must remain unset during routine checks.
+An actual reproduction can regenerate data or replace models and needs separate
+approval. Do not use forced reproduction or snapshots to hide mismatches.
 
-Since machine config is not committed, configure a private remote/cache on a
-new machine (adapt the E: path to that workspace):
+On another machine, configure private local cache/remote paths and obtain
+authorized artifact access before a selective `dvc pull`. Pulling can replace
+workspace artifacts: protect local work and do not run it against this intact
+demo workspace. [PIPELINE_REPRODUCIBILITY.md](PIPELINE_REPRODUCIBILITY.md) explains
+the inventory snapshot, raw-input gap and environment dependencies.
 
-```powershell
-.venv\Scripts\python.exe -m dvc config --local cache.dir E:/GroupTravelMLOps/.local/dvc-cache
-.venv\Scripts\python.exe -m dvc config --local cache.type copy
-.venv\Scripts\python.exe -m dvc remote add --local -d dev E:/GroupTravelMLOps/.local/dvc-remote
-.venv\Scripts\python.exe -m dvc pull
-```
+## MLflow: existing validation provenance
 
-Only pull when files are missing/need restoration, after protecting local work.
-Do not blindly checkout/pull over modified artifacts. Existing raw inputs must
-be available before reproduction. Normal dependency hashing skips unchanged
-stages; it does not automatically justify retraining changed inputs.
+Read-only inspection verified **seven FINISHED runs**: five components tagged
+`origin=imported_historical` (baselines, MF, BPR, hybrid, groups) and two
+connectivity smoke runs. All five historical components identify validation as
+their evaluation split and `test_data_used=false`. Their local artifact
+directories are accessible.
 
-An actual rebuild requires review/backup and explicit opt-in:
+Historical imports are not newly executed training runs. Their creation times
+are not original training times. BPR and hybrid share one factor model. The
+tracking code logs genuine report/config/search metadata, stored objectives and
+SHA-256/path references; private weights and historical user metadata remain
+outside MLflow's small artifact snapshots. No inference-serving MLflow pyfunc
+model or cloud Model Registry is claimed.
 
-```powershell
-.venv\Scripts\python.exe -m dvc repro --dry
-# Only AFTER approving data preparation/model training for this workspace:
-$env:HUMSAFAR_ALLOW_PIPELINE_EXECUTION='1'
-.venv\Scripts\python.exe -m dvc repro
-Remove-Item Env:HUMSAFAR_ALLOW_PIPELINE_EXECUTION
-```
+The approved final test JSON/Markdown have **not** been imported into MLflow.
+No new run or smoke value was created for documentation/demo verification.
+Do not run `import-history` or `smoke` merely to show existing experiment history.
 
-Preparation can regenerate splits; training can replace its declared outputs.
-Do not use --force casually. This task did NOT set the opt-in or execute stages.
-When taking an approved existing-output snapshot instead of rebuilding:
+`backend/mlops/tracking.py` uses local SQLite, disables telemetry/system metrics
+and supports explicit historical or executed-stage origins. A full MLflow UI
+is optional and is not supplied by the skinny tracking dependencies. Inspect
+the existing database/artifact tree read-only, or use the local client without
+logging new runs. A future UI must bind to loopback and use the existing paths;
+it requires separate installation/review. Back up the database and artifact tree
+separately: DVC restore does not recreate run IDs/history.
 
-Follow the verified, non-forced snapshot procedure and evidence described in
-PIPELINE_REPRODUCIBILITY.md. Do not override unexpected hash mismatches or upload
-private artifacts. An inventory snapshot never proves training execution.
+## Model manifest and promotion
 
-## MLflow: truthful historical imports and future runs
+`models/registry/model_manifest.json` identifies the pre-test approved Hawaii
+ranking reference and exact BPR artifacts. MF is recorded separately as an
+explicit-rating reference; lower RMSE is not treated as better top-k retrieval.
 
-backend.mlops.tracking uses a forced LOCAL SQLite URI, independent of ambient
-cloud credentials/tracking URIs. It disables telemetry/system-metric logging.
-MLflow skinny plus SQLAlchemy/Alembic provides the lightweight local backend.
-The smoke run is named/tagged tracking_smoke_test and logs only a connectivity
-value, not model performance. It is separate from experiment runs.
+The manifest is preserved unchanged, including its historical
+`test_evaluated:false`. The completed final-test ledger/report record the later
+test use; the old flag must not be cited as evidence of an untouched test now.
+No serving change or automatic promotion followed the test result.
 
-```powershell
-.venv\Scripts\python.exe -m backend.mlops.tracking import-history
-```
+The existing approval mechanism requires an explicit reviewer/reason and approval
+bound to an exact candidate-manifest SHA-256. It records permission for future
+manual integration; it is not an automatic deployment/rollout service. A single
+metric cannot replace the model. After examining test, new tuning would need a
+new evaluation plan rather than repeated attempts on this holdout.
 
-This imports five existing report components (baselines, MF, BPR, hybrid,
-group consensus), tagged origin=imported_historical. It never claims they trained
-today. Source hashes, objective/config/seed, validation metrics, stored training
-objectives and reported historical runtimes are logged. Group construction seed
-and consensus weights are logged. Historical import creation times are NOT
-claimed to be original training times. Repeating imports reuses matching runs;
-missing training-curve metadata can be enriched from the same genuine reports.
-No metrics, timestamps, parameters or historical labels are invented.
+## CI and lightweight checks
 
-Weights and user-ID metadata remain in private DVC rather than being duplicated
-in MLflow. MLflow logs small configs/search reports and exact SHA256/path model
-artifact references. This is artifact lineage, not a newly serialized MLflow
-pyfunc deployment. The hybrid references the same BPR weights; it is not logged
-as a separately trained factor model. Future successful opted-in stages use
-origin=executed_pipeline_stage; tracking happens after the actual script succeeds.
-The local run receipts are under .local/mlflow and are not committed.
+[The workflow](.github/workflows/ci.yml) has read-only repository permissions:
 
-A full MLflow UI/server is optional and not installed by skinny dependencies;
-use the Python MlflowClient for local inspection. If a UI is later needed,
-install the full matching MLflow package separately and bind only to loopback,
-pointing at the same SQLite backend/artifact directory. No server, cloud registry
-or remote tracking service was deployed here.
+- Python 3.12: install CI requirements, syntax checks, explicit `tests/ci`
+  discovery, and static DAG validation.
+- Node 22: install the frontend lockfile, run unit tests and production build.
 
-## Selection manifest and approval gate
+It needs no private datasets, weights, AWS credentials, paid services, training
+or final test evaluation. Broad `tests/` discovery is intentionally avoided:
+some research tests train small models or inspect private/prepared data.
+The nine final-protocol tests use only synthetic fixtures but import the legacy
+CPU PyTorch loaders, so they are outside the lightweight CI directory.
 
-models/registry/model_manifest.json identifies the already user-approved Hawaii
-75% BPR + 25% popularity ranking reference, scope, config, validation metrics,
-dataset hashes and exact artifact hashes. It separately records MF as a rating
-prediction reference; lower RMSE is not treated as better top-k ranking.
-The current app routes remain unchanged, and this manifest is not an automatic
-serving pointer or claim of worldwide personalization.
-
-Candidate integration requires an operator-supplied approval JSON containing
-approved=true, reviewer, reason, and SHA256 of the exact candidate manifest.
-backend.mlops.registry approve --candidate ... --approval ... validates the
-approval and artifact scope/path/hashes, then records permission for a FUTURE
-manual integration only. No promotion was performed here. This lightweight
-manifest registry is not a configured MLflow Model Registry deployment service.
-A metric threshold alone cannot authorize a model replacement.
-
-## CI and checks
-
-.github/workflows/ci.yml has read-only repository permissions and two jobs:
-
-- Python 3.12: install backend/requirements-ci.txt, compileall syntax checks,
-  explicit tests/ci unittest discovery, and static DAG validation.
-- Node 22: npm ci using the frontend lockfile, frontend tests and production build.
-
-No raw data, trained weights, personal IDs, AWS secrets, paid service or training
-is required. CI fixtures are five genuine public-place metadata records with
-descriptions/reviews/user fields removed. API actors and utility matrices are
-explicit isolated test/math fixtures, not real ML interaction records. Full
-existing tests are NOT blindly discovered on CI because some require private
-datasets (and preparation tests read the quarantined test split). Browser E2E
-requires the real local catalog and is separately run locally, not faked in CI.
-Workflows have not been executed on GitHub because no repository was published.
+The hosted [run for monitoring commit 429f5ad](https://github.com/hassaanzafar891-glitch/HumSafar-MLOps/actions/runs/42589415223)
+completed successfully. Check the exact commit SHA of subsequent hosted runs
+before claiming a newer change passed. The latest local verification passed 24 lightweight tests,
+17 API regressions, 19 frontend unit tests, the frontend build and three Docker
+browser tests; the current demo evidence is summarized in [DEMO.md](DEMO.md).
 
 ```powershell
-.venv\Scripts\python.exe -m unittest discover -s tests/ci -v
-.venv\Scripts\python.exe -m unittest discover -s tests -p test_api.py -v
-.venv\Scripts\python.exe -m unittest discover -s tests -p test_recommendation_service.py -v
-.venv\Scripts\python.exe -m unittest discover -s tests -p test_group_consensus.py -v
+.\.venv\Scripts\python.exe -m unittest discover -s tests/ci -v
+.\.venv\Scripts\python.exe -m unittest discover -s tests -p test_api.py -v
 cd frontend
-npm.cmd test
-npm.cmd run build
+npm test
+npm run build
+npx playwright test --config playwright.docker.config.js
 ```
 
-quality checks schema, unique pairs, train-validation nonoverlap, train history,
-validation entity coverage, prepared hashes, compatible model identity maps and
-weight checksums, metric denominators/hit arithmetic and DAG structure. Group
-math/routing/API tests cover aggregation, exclusions, authorization and service
-boundaries. They do not claim independently measured generalization or fairness.
+## Environment and privacy boundaries
 
-Remaining limits: no Git revision history in current no-SCM workspace; private
-raw data must be separately supplied; held-out files remain quarantined; no fresh
-training reproducibility claim; no hosted CI result; no native MLflow model-serving
-registry/rollout. Existing selection bias, timestamp ties, single-item validation
-and international coverage limitations remain unchanged. C: is full, so local
-verification uses the unaffected E: workspace and outside-sandbox execution.
+Observed final-evaluation versions: Python 3.12.10, NumPy 2.5.4, pandas 3.1.1,
+CPU PyTorch 2.6.0+cpu. Node 22, the frontend lockfile, existing dependency files,
+Docker serving constraints and `backend/mlops/runtime_versions.json` document
+the environment. Seeds and factor configurations are preserved in genuine
+experiment configs and the final report. This is not a complete cross-platform
+transitive lock or byte-identical rebuild guarantee.
+
+The reviewed aggregate `data/processed/hawaii/final_test_evaluation.json` is the
+only final-report exception to the data ignore rules. It contains no interaction
+rows, member lists or dataset identities. Its original bytes are versioned
+without line-ending conversion so its checksum remains bound to the private
+completed ledger. This exception does not publish the ledger or any dataset.
+
+Ignored data/models, `.env`, databases, `.local`, DVC caches/remotes, wheels,
+MLflow storage and runtime logs must stay private. Keep safe configuration
+examples, source, tests, documentation, DVC pointers/pipeline metadata and reviewed
+registry references in Git. A fresh source checkout does not imply data access.
+
+The Docker demo uses only the five-file read-only serving bundle, separate
+SQLite state and privacy-safe monitoring. See [DOCKER.md](DOCKER.md),
+[ARCHITECTURE.md](ARCHITECTURE.md) and [MONITORING.md](MONITORING.md).
+No DagsHub integration, public deployment, AWS infrastructure, bookings or
+payments were configured. Production TLS, backup/restore, remote access controls,
+shared rate limiting and broader generalization remain future work.

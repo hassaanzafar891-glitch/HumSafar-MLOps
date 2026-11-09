@@ -1,5 +1,9 @@
 # HumSafar web application (Step 27)
 
+For the current Docker demo, final evaluation evidence and coverage boundaries,
+see the project [README](../README.md), [architecture](../ARCHITECTURE.md),
+[demo guide](../DEMO.md) and [monitoring guide](../MONITORING.md).
+
 React + Vite + React Router, with responsive CSS and the existing FastAPI API.
 No backend security changes, new model training, dataset edits or deployment.
 
@@ -11,7 +15,7 @@ JWT_SECRET_KEY. Do not replace an existing secret unnecessarily. Then:
 
 ```powershell
 .venv\Scripts\python.exe -m backend.api.init_db
-.venv\Scripts\python.exe -m uvicorn backend.api.app:create_app --factory --host 127.0.0.1 --port 8000
+.venv\Scripts\python.exe -m uvicorn backend.api.app:create_app --factory --host 127.0.0.1 --port 8000 --no-access-log --log-config docker/backend/logging.json
 ```
 
 In a second PowerShell terminal:

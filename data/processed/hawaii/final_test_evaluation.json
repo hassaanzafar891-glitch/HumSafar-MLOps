@@ -1,0 +1,397 @@
+{
+  "evaluation_split": "test",
+  "executed_once": true,
+  "created_utc": "2026-11-09T09:11:13.075605+00:00",
+  "synthetic_checks_passed": 9,
+  "split_checks": {
+    "rows": {
+      "train": 182769,
+      "validation": 25908,
+      "test": 25908
+    },
+    "users": 25908,
+    "catalog_size": 1512,
+    "overlap_cold_start_rating_timestamp_checks": "passed",
+    "minimum_train_history": 3
+  },
+  "individual_ranking": {
+    "popularity": {
+      "recall_at_10": 0.10962925683610132,
+      "ndcg_at_10": 0.052921515301213605,
+      "eligible_users": 23844,
+      "excluded_no_relevant_holdout": 2064,
+      "hit_users": 2614
+    },
+    "matrix_factorization": {
+      "recall_at_10": 0.0026002348599228316,
+      "ndcg_at_10": 0.001074476402277762,
+      "eligible_users": 23844,
+      "hit_users": 62,
+      "excluded_no_relevant_holdout": 2064,
+      "catalog_size": 1512,
+      "relevance_threshold": 4,
+      "candidate_rule": "All catalog attractions except this user training history, no negative sampling.",
+      "tie_break": "Raw predicted score descending then original gmap_id ascending; no score clipping for ranking."
+    },
+    "bpr": {
+      "alpha": 1.0,
+      "recall_at_10": 0.21762288206676733,
+      "ndcg_at_10": 0.11559935035816885,
+      "hit_users": 5189,
+      "eligible_users": 23844,
+      "excluded_no_relevant_holdout": 2064,
+      "catalog_size": 1512
+    },
+    "bpr_popularity_hybrid": {
+      "alpha": 0.75,
+      "recall_at_10": 0.22114578090924342,
+      "ndcg_at_10": 0.1181956230076283,
+      "hit_users": 5273,
+      "eligible_users": 23844,
+      "excluded_no_relevant_holdout": 2064,
+      "catalog_size": 1512
+    }
+  },
+  "group_results_by_size": {
+    "2": {
+      "groups_total": 500,
+      "groups_evaluable": 499,
+      "groups_without_eligible_observed_relevance": 1,
+      "candidate_count_min": 1436,
+      "candidate_count_mean": 1497.958,
+      "positive_member_holdouts": 940,
+      "blocked_positive_member_holdouts": 29,
+      "eligible_relevant_items_mean": 1.822,
+      "groups_with_attraction_positive_for_multiple_members": 0,
+      "members_missing_validation": 0,
+      "methods": {
+        "average": {
+          "group_recall_at_10": 0.18236472945891782,
+          "group_ndcg_at_10": 0.11213438132700358,
+          "recall_including_blocked_positive_items": 0.17935871743486975,
+          "predicted_satisfaction": {
+            "average_member": 0.8519753597708436,
+            "minimum_member": 0.8145732683185665,
+            "disparity_range": 0.07480418290455422
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.18236472945891782,
+            "minimum_member": 0.052104208416833664,
+            "disparity_range": 0.2605210420841683
+          }
+        },
+        "least_misery": {
+          "group_recall_at_10": 0.1432865731462926,
+          "group_ndcg_at_10": 0.09080999478949253,
+          "recall_including_blocked_positive_items": 0.1402805611222445,
+          "predicted_satisfaction": {
+            "average_member": 0.8394095860085287,
+            "minimum_member": 0.8051718489951833,
+            "disparity_range": 0.06847547402669067
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.1432865731462926,
+            "minimum_member": 0.04208416833667335,
+            "disparity_range": 0.20240480961923848
+          }
+        },
+        "adaptive_consensus": {
+          "group_recall_at_10": 0.17935871743486975,
+          "group_ndcg_at_10": 0.11206687759245786,
+          "recall_including_blocked_positive_items": 0.17635270541082165,
+          "predicted_satisfaction": {
+            "average_member": 0.8495179429285356,
+            "minimum_member": 0.8386045591183728,
+            "disparity_range": 0.021826767620325392
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.17935871743486975,
+            "minimum_member": 0.04609218436873747,
+            "disparity_range": 0.2665330661322645
+          }
+        }
+      }
+    },
+    "3": {
+      "groups_total": 500,
+      "groups_evaluable": 500,
+      "groups_without_eligible_observed_relevance": 0,
+      "candidate_count_min": 1426,
+      "candidate_count_mean": 1491.366,
+      "positive_member_holdouts": 1407,
+      "blocked_positive_member_holdouts": 75,
+      "eligible_relevant_items_mean": 2.654,
+      "groups_with_attraction_positive_for_multiple_members": 5,
+      "members_missing_validation": 0,
+      "methods": {
+        "average": {
+          "group_recall_at_10": 0.15366666666666665,
+          "group_ndcg_at_10": 0.10152207779076756,
+          "recall_including_blocked_positive_items": 0.14233333333333334,
+          "predicted_satisfaction": {
+            "average_member": 0.8217108743134566,
+            "minimum_member": 0.7022416820120243,
+            "disparity_range": 0.19858895097789003
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.15433333333333332,
+            "minimum_member": 0.022,
+            "disparity_range": 0.332
+          }
+        },
+        "least_misery": {
+          "group_recall_at_10": 0.11533333333333332,
+          "group_ndcg_at_10": 0.07650147786129981,
+          "recall_including_blocked_positive_items": 0.10699999999999998,
+          "predicted_satisfaction": {
+            "average_member": 0.7937515856648925,
+            "minimum_member": 0.7241180571574828,
+            "disparity_range": 0.1351727413365308
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.11599999999999999,
+            "minimum_member": 0.016,
+            "disparity_range": 0.248
+          }
+        },
+        "adaptive_consensus": {
+          "group_recall_at_10": 0.15066666666666667,
+          "group_ndcg_at_10": 0.09819499865687502,
+          "recall_including_blocked_positive_items": 0.1403333333333333,
+          "predicted_satisfaction": {
+            "average_member": 0.8119589344184983,
+            "minimum_member": 0.7715078923963049,
+            "disparity_range": 0.08192747682384462
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.15133333333333332,
+            "minimum_member": 0.024,
+            "disparity_range": 0.314
+          }
+        }
+      }
+    },
+    "4": {
+      "groups_total": 500,
+      "groups_evaluable": 500,
+      "groups_without_eligible_observed_relevance": 0,
+      "candidate_count_min": 1423,
+      "candidate_count_mean": 1485.406,
+      "positive_member_holdouts": 1847,
+      "blocked_positive_member_holdouts": 141,
+      "eligible_relevant_items_mean": 3.398,
+      "groups_with_attraction_positive_for_multiple_members": 7,
+      "members_missing_validation": 0,
+      "methods": {
+        "average": {
+          "group_recall_at_10": 0.1353333333333333,
+          "group_ndcg_at_10": 0.10224464194544491,
+          "recall_including_blocked_positive_items": 0.12516666666666665,
+          "predicted_satisfaction": {
+            "average_member": 0.8073254367866897,
+            "minimum_member": 0.6545290772258945,
+            "disparity_range": 0.24855412537966262
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.13666666666666666,
+            "minimum_member": 0.008,
+            "disparity_range": 0.39
+          }
+        },
+        "least_misery": {
+          "group_recall_at_10": 0.11,
+          "group_ndcg_at_10": 0.07938953364268775,
+          "recall_including_blocked_positive_items": 0.1025,
+          "predicted_satisfaction": {
+            "average_member": 0.7739661347122709,
+            "minimum_member": 0.682401906585549,
+            "disparity_range": 0.17698812441065148
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.1105,
+            "minimum_member": 0.002,
+            "disparity_range": 0.336
+          }
+        },
+        "adaptive_consensus": {
+          "group_recall_at_10": 0.13116666666666668,
+          "group_ndcg_at_10": 0.09545861594090486,
+          "recall_including_blocked_positive_items": 0.12149999999999998,
+          "predicted_satisfaction": {
+            "average_member": 0.7959592900794703,
+            "minimum_member": 0.7309911417925058,
+            "disparity_range": 0.12688644062617824
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.13266666666666668,
+            "minimum_member": 0.008,
+            "disparity_range": 0.38
+          }
+        }
+      }
+    },
+    "5": {
+      "groups_total": 500,
+      "groups_evaluable": 500,
+      "groups_without_eligible_observed_relevance": 0,
+      "candidate_count_min": 1427,
+      "candidate_count_mean": 1478.27,
+      "positive_member_holdouts": 2325,
+      "blocked_positive_member_holdouts": 209,
+      "eligible_relevant_items_mean": 4.208,
+      "groups_with_attraction_positive_for_multiple_members": 12,
+      "members_missing_validation": 0,
+      "methods": {
+        "average": {
+          "group_recall_at_10": 0.11956666666666667,
+          "group_ndcg_at_10": 0.09886404870058847,
+          "recall_including_blocked_positive_items": 0.11090000000000001,
+          "predicted_satisfaction": {
+            "average_member": 0.7962425427729504,
+            "minimum_member": 0.6255563800793782,
+            "disparity_range": 0.2744155855192827
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.1195,
+            "minimum_member": 0.0,
+            "disparity_range": 0.426
+          }
+        },
+        "least_misery": {
+          "group_recall_at_10": 0.09363333333333333,
+          "group_ndcg_at_10": 0.07619408286831796,
+          "recall_including_blocked_positive_items": 0.0874,
+          "predicted_satisfaction": {
+            "average_member": 0.7616521165030984,
+            "minimum_member": 0.6531538673256986,
+            "disparity_range": 0.20985564122554443
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.09473333333333332,
+            "minimum_member": 0.0,
+            "disparity_range": 0.344
+          }
+        },
+        "adaptive_consensus": {
+          "group_recall_at_10": 0.11976666666666667,
+          "group_ndcg_at_10": 0.09812257864688005,
+          "recall_including_blocked_positive_items": 0.11059999999999999,
+          "predicted_satisfaction": {
+            "average_member": 0.7854774939515599,
+            "minimum_member": 0.6994434658633171,
+            "disparity_range": 0.15924490955875584
+          },
+          "observed_positive_member_hit_proxy": {
+            "average_member": 0.12016666666666666,
+            "minimum_member": 0.0,
+            "disparity_range": 0.428
+          }
+        }
+      }
+    }
+  },
+  "groups_sha256": "00eef8c54bffa06ec24ab421b97a83310b8453d9255cab200832d448cd374bff",
+  "frozen_bpr_config": {
+    "factors": 32,
+    "regularization": 0.01,
+    "learning_rate": 0.005,
+    "epochs": 15,
+    "batch_size": 4096,
+    "seed": 2026
+  },
+  "hybrid_alpha": 0.75,
+  "group_config": {
+    "average_weight": 0.5,
+    "minimum_weight": 0.3,
+    "fairness_weight": 0.2,
+    "epsilon": 0.05,
+    "hybrid_alpha": 0.75,
+    "top_k": 10
+  },
+  "group_formation": {
+    "sizes": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "groups_per_size": 500,
+    "seed": 2026,
+    "rule": "Sort all training user IDs; NumPy default_rng(SeedSequence([seed,size])); uniformly sample distinct members without replacement within a group; reject duplicate member sets within each size. Users may appear in multiple groups. No validation filtering."
+  },
+  "inputs_and_source_sha256": {
+    "data/processed/hawaii/attractions.jsonl": "5f19490b744771dc7826dce1c1193f746b7fa51349c6db3c2f2c4da9e8e98a00",
+    "data/processed/hawaii/attraction_mapping.csv": "109387d6a792d3adab6a0f6f1aeef86e7ae1e425acbb12cb5963a99857537795",
+    "data/processed/hawaii/audit.json": "e8b728afb8a17aace34bea7276ce584a2d73b6926da1c915aa7de9e046022828",
+    "data/processed/hawaii/baseline_validation_metrics.json": "621e44072c36059caf927d5a7f2e5eb6ead802b141268d3df6cca69a1d6d067e",
+    "data/processed/hawaii/bpr_search.json": "1f0d3d44bed1dd99f6c9f4e66d4abc6e861b3ea6a27768daf61355404f6506bd",
+    "data/processed/hawaii/bpr_validation_metrics.json": "ff03245fa43c8cf60fda01dce515c4ed0561bbbef8e563817f3d7e9734ea7c25",
+    "data/processed/hawaii/group_validation_details.json": "eeb96867bf0c50817b963e2c37ad52eaeb6a59a20a3780c24ec13f69428cb408",
+    "data/processed/hawaii/group_validation_metrics.json": "3d8ca68ccac5d878604258ecfccead777fc76ef59592cc5bdf937f5dc8902cf7",
+    "data/processed/hawaii/interactions.csv": "f012ce3383a3e8e9c7878e3125e27e86e37bef93e143d76e1942545145e0d722",
+    "data/processed/hawaii/matrix_factorization_search.json": "c02357b58356942437ddaf5f8a13a289e6334beedf27e1e082273faf0291fb6a",
+    "data/processed/hawaii/matrix_factorization_validation_metrics.json": "683720b1690aa2def7a29d1a77bf1a9f3c28ea8382b49416d7fa1ae46fdfa5e0",
+    "data/processed/hawaii/README.md": "7cda081f21aebe45cef5e37283327ef90606283b49586abf88535641f7dfa844",
+    "data/processed/hawaii/test.csv": "889f30d249bb8764d21bf48746b460fd7f186ca55283c1b453a5f5b5cf3b34ef",
+    "data/processed/hawaii/train.csv": "c9a167a6891836b66f6e75ebbe3c4fbfd625445d1e51965f6980fa0824adc423",
+    "data/processed/hawaii/user_mapping.csv": "34a32dcecbdcb5899e8f3915d68d312bdfac22542af315cb1590fc87d2968cce",
+    "data/processed/hawaii/validation.csv": "bdbbeb1d2c946ff4a9c9038ce8bc82b4224b2e0c7c294f8782f7abcbaa59238a",
+    "models/hawaii_baselines/baselines.joblib": "810747d98dcc9fa454835dfa5f37cbc239c654cfbcdd105ccb80d69abe46331c",
+    "models/hawaii_baselines/item_statistics.csv": "73277617de35e18cc637f65f4f359f088babf000d41a35e6b7b6c4a5cc213690",
+    "models/hawaii_baselines/manifest.json": "0e283fc6122dcc631d6ad976553c708aa5e613734b78b32570ab43fd47bfa299",
+    "models/hawaii_baselines/README.md": "ff7cccc186e6a5de92226b887785f4d99e19eab0cf700f009987a40528a9831e",
+    "models/hawaii_matrix_factorization/config.json": "261d6519454d2a139b35b54d48e766dddbd01dd363aba242199226bd211acc5b",
+    "models/hawaii_matrix_factorization/metadata.json": "16bb64a3402604718bb7d8f9a609c1cd99c7183dd236fc5b596a7b401d861da2",
+    "models/hawaii_matrix_factorization/model.npz": "f26150b53d1560f264f14ab2bfcc41e0b360c6db37c6f1ca68953d96e4025566",
+    "models/hawaii_matrix_factorization/README.md": "a744bcc36da834521b479d9ace185e69acc1cd664d2c9d6439b3e035800a0d2e",
+    "models/hawaii_bpr/config.json": "2fbd4794c4b8bc9e2c03543af9528c7701867ab0dc16100d1cd0227ffda88e83",
+    "models/hawaii_bpr/metadata.json": "f21d63d2b4891af7058d32bc4b4cc3b7f98771413f0a480f5eb06a34de7308c3",
+    "models/hawaii_bpr/model.npz": "b3392965de013fff33e93cba48874e03e2f0cb2f501eed7801d56d7aaab32902",
+    "models/hawaii_bpr/README.md": "81bbee9d549a9eee681bf610b5ed61b05893adc5a3014df2d72c5a82b6667ee4",
+    "models/hawaii_group_consensus/config.json": "36d7d31ebfd1538660f58598230be4f9b29a851a5d33104b0d83d94b0b820149",
+    "models/hawaii_group_consensus/README.md": "aa1d45f943206b64174921178d693b95f21e11542987c973fa83c4af77660ef4",
+    "models/registry/model_manifest.json": "fa656da2a08d5eb340d10c37e8d41835ed0cabf9e4bbe3b67d1dfbe326ba9db2",
+    "backend/evaluate_final_test.py": "dc4d631bfc90ddf50b0b0eb661c549d7f9fdb6d7ff35f870f617c7ce08d4ddb7",
+    "tests/test_final_evaluation.py": "1bcf3e66046b3261a290a06c7e36b1447d45c00846c2f0e1bf9430b8f88ebde1",
+    "backend/group_consensus.py": "d431e84be0f626a652496d97f7e61d4454297f981fc28c24c666b3cbb74f5571",
+    "backend/evaluate_group_consensus.py": "178d48a3c51b93afd367e98c95fed239e22e9eae2d0ba7b5ce6e05ac3905f7ce",
+    "backend/train_baselines.py": "88e6099ea51e05cb1d17544b52928a17955e607b1d307114f91b4e81fcc9b15b",
+    "backend/train_bpr.py": "ca3e49f9e8fc6fb7db2e6958898300fdb5a35ed655f27e1462b8b6029f90c8fc",
+    "backend/train_matrix_factorization.py": "6411edc9bcc084ccdf303c312a76a80b91c78c0964540eb9d307c60234b7be98"
+  },
+  "protocol": {
+    "k": 10,
+    "relevance_threshold": 4,
+    "catalog_size": 1512,
+    "individual_candidates": "Full catalog minus complete training history; validation visits remain candidates.",
+    "group_candidates": "Full catalog minus union of all members training histories.",
+    "tie_break": "Original attraction ID ascending for exact ties.",
+    "normalization": "Per-user minmax on training-unseen catalog; group restriction afterward without rescaling.",
+    "individual_denominator": "Users whose single test rating >=4; other users excluded, not dislikes.",
+    "group_relevance": "Union of candidate-eligible member test attractions rated >=4; unknown ratings are not dislikes.",
+    "group_denominator": "Macro average over groups with nonempty eligible relevance; predicted utilities over all groups.",
+    "observed_proxy": "Mean/min/range of binary hits among members with eligible positive holdouts only.",
+    "predicted_utility": "Mean normalized model score over list per member; mean/min/range across all members.",
+    "no_selection": "No fit, tuning, validation evaluation, alpha selection, or automatic model promotion."
+  },
+  "limitations": [
+    "Full-graph 5-core and latest-review deduplication expose future cohort membership and create selection bias.",
+    "Per-user split is not a global temporal cutoff; timestamp ties do not prove strict chronology.",
+    "One heldout item per user and unknown missing ratings limit observed relevance.",
+    "Validation visits remain candidates under the approved train-only exclusion protocol.",
+    "Simulated groups overlap; groups are not independent observations or actual friend groups.",
+    "Predicted fairness uses optimized model scores, not independently observed human satisfaction.",
+    "Union relevance is not unanimous preference; conditional observed proxies omit unobserved members.",
+    "Test results must not trigger new tuning; a future changed model requires a new evaluation plan.",
+    "Hawaii historical-ID benchmark does not establish international or new-application-user personalization."
+  ],
+  "software": {
+    "python": "3.12.10",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "torch": "2.6.0+cpu"
+  },
+  "git_commit": "429f5ad84f55c0a974b7dfc0c31afbeca86e31c4",
+  "runtime_seconds": 46.70380720000003,
+  "protected_inputs_unchanged": true
+}
